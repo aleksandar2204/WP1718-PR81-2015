@@ -21,7 +21,10 @@ namespace WebAPI
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             Korisnici korisnici = new Korisnici("~/App_Data/TestFile.txt");
-            HttpContext.Current.Application["Korisnici"] = korisnici;
+            HttpContext.Current.Application["korisnici"] = korisnici;
+
+            Dispeceri dispeceri = new Dispeceri("~/App_Data/Dispeceri.txt");
+            HttpContext.Current.Application["dispeceri"] = dispeceri;
         }
     }
 }

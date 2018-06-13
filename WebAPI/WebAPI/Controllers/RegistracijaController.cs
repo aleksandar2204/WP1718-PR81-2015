@@ -15,6 +15,7 @@ namespace WebAPI.Controllers
     {
         public bool Post([FromBody]Korisnik korisnik)
         {
+            Dispeceri dispeceri = (Dispeceri)HttpContext.Current.Application["dispeceri"];
             Korisnici users = (Korisnici)HttpContext.Current.Application["korisnici"];
             foreach (var item in users.korisnici)
             {
@@ -22,6 +23,12 @@ namespace WebAPI.Controllers
                 {
                     return false;
                 }
+            }
+
+            foreach (var item in dispeceri.dispecers)
+            {
+                if (item.KorisnickoIme == korisnik.KorisnickoIme)
+                    return false;
             }
 
             users.korisnici.Add(korisnik);

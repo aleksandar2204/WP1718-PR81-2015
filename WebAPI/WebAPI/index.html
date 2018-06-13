@@ -3,156 +3,278 @@
 <head>
     <title></title>
     <meta charset="utf-8" />
+    <style>
+        body {
+            padding-top: 90px;
+        }
+
+        .panel-login {
+            border-color: #ccc;
+            -webkit-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+            -moz-box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+            box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.2);
+        }
+
+            .panel-login > .panel-heading {
+                color: #00415d;
+                background-color: #fff;
+                border-color: #fff;
+                text-align: center;
+            }
+
+                .panel-login > .panel-heading a {
+                    text-decoration: none;
+                    color: #666;
+                    font-weight: bold;
+                    font-size: 15px;
+                    -webkit-transition: all 0.1s linear;
+                    -moz-transition: all 0.1s linear;
+                    transition: all 0.1s linear;
+                }
+
+                    .panel-login > .panel-heading a.active {
+                        color: #029f5b;
+                        font-size: 18px;
+                    }
+
+                .panel-login > .panel-heading hr {
+                    margin-top: 10px;
+                    margin-bottom: 0px;
+                    clear: both;
+                    border: 0;
+                    height: 1px;
+                    background-image: -webkit-linear-gradient(left,rgba(0, 0, 0, 0),rgba(0, 0, 0, 0.15),rgba(0, 0, 0, 0));
+                    background-image: -moz-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+                    background-image: -o-linear-gradient(left,rgba(0,0,0,0),rgba(0,0,0,0.15),rgba(0,0,0,0));
+                }
+
+            .panel-login input[type="text"], .panel-login input[type="email"], .panel-login input[type="password"] {
+                height: 45px;
+                border: 1px solid #ddd;
+                font-size: 16px;
+                -webkit-transition: all 0.1s linear;
+                -moz-transition: all 0.1s linear;
+                transition: all 0.1s linear;
+            }
+
+            .panel-login input:hover,
+            .panel-login input:focus {
+                outline: none;
+                -webkit-box-shadow: none;
+                -moz-box-shadow: none;
+                box-shadow: none;
+                border-color: #ccc;
+            }
+
+        .btn-login {
+            background-color: #59B2E0;
+            outline: none;
+            color: #fff;
+            font-size: 14px;
+            height: auto;
+            font-weight: normal;
+            padding: 14px 0;
+            text-transform: uppercase;
+            border-color: #59B2E6;
+        }
+
+            .btn-login:hover,
+            .btn-login:focus {
+                color: #fff;
+                background-color: #53A3CD;
+                border-color: #53A3CD;
+            }
+
+        .forgot-password {
+            text-decoration: underline;
+            color: #888;
+        }
+
+            .forgot-password:hover,
+            .forgot-password:focus {
+                text-decoration: underline;
+                color: #666;
+            }
+
+        .btn-register {
+            background-color: #1CB94E;
+            outline: none;
+            color: #fff;
+            font-size: 14px;
+            height: auto;
+            font-weight: normal;
+            padding: 14px 0;
+            text-transform: uppercase;
+            border-color: #1CB94A;
+        }
+
+            .btn-register:hover,
+            .btn-register:focus {
+                color: #fff;
+                background-color: #1CA347;
+                border-color: #1CA347;
+            }
+    </style>
     <script src="Scripts/jquery-1.10.2.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            $('#login-form-link').click(function () {
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+            $('#register-form-link').click(function () {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $('#login-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+
             $("#prijava").click(function () {
                 let korisnik = {
-                    KorisnickoIme: `${ $('#korIme').val() }`,
-                    Lozinka: `${ $('#korPass').val() }`,
+                    KorisnickoIme: `${$('#korIme').val()}`,
+                    Lozinka: `${$('#korPass').val()}`,
                 };
 
-            $.ajax({
-                type: 'POST',
-                url: '/api/Registracija',
-                data: JSON.stringify(korisnik),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                success: function (data) {
-                    if (data) {
-                        alert('Data was succesfully captured');
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Log',
+                    data: JSON.stringify(korisnik),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            $(location).attr('href', 'wellcome.html');
+                            localStorage.setItem("Ulogovan", korisnik.KorisnickoIme);
+                        }
+                        else {
+                            alert('Error');
+                        }
                     }
-                    else {
-                        alert('Error');
+                })
+            });
+
+            $("#registracija").click(function () {
+                let korisnik = {
+                    KorisnickoIme: `${$('#korImeReg').val()}`,
+                    Lozinka: `${$('#korPassReg').val()}`,
+                    Ime: `${$('#ime').val()}`,
+                    Prezime: `${$('#prezime').val()}`,
+                    Pol: `${$('#pol').val()}`,
+                    JMBG: `${$('#jmbg').val()}`,
+                    Telefon: `${$('#brTelefona').val()}`,
+                    Email: `${$('#email').val()}`,
+                    Uloga: 'MUSTERIJA',
+                    Voznja: `${$('#voznja').val()}`,
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Registracija',
+                    data: JSON.stringify(korisnik),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            alert('Data was succesfully captured');
+                        }
+                        else {
+                            alert('Error');
+                        }
                     }
-                },
-            })
-        });
-
-        $("#registracija").click(function () {
-            let korisnik = {
-                KorisnickoIme: `${ $('#korImeReg').val() }`,
-                Lozinka: `${ $('#korPassReg').val() }`,
-                Ime: `${ $('#ime').val() }`,
-                Prezime: `${ $('#prezime').val() }`,
-                Pol: `${ $('#pol').val() }`,
-                JMBG: `${ $('#jmbg').val() }`,
-                Telefon: `${$('#brTelefona').val()}`,
-                Email: `${$('#email').val()}`,
-                Uloga: `${$('#uloga').val()}`,
-                Voznja: `${$('#voznja').val()}`,
-            };
-
-        $.ajax({
-            type: 'POST',
-            url: '/api/Registracija',
-            data: JSON.stringify(korisnik),
-            contentType: 'application/json; charset=utf-8',
-            dataType: 'json',
-            success: function (data) {
-                if (data) {
-                    alert('Data was succesfully captured');
-                }
-                else {
-                    alert('Error');
-                }
-            }
-            })
-        });
+                })
+            });
 
         });
 
     </script>
 </head>
 <body>
-    <h2> Prijava :)</h2>
-    <table>
-        <tr>
-            <td>Ime</td>
-            <td><input id="korIme" type="text" name="KorisnickoIme" /></td>
-        </tr>
-        <tr>
-            <td>Pass</td>
-            <td><input id="korPass" type="password" name="Lozinka" /></td>
-        </tr>
-    </table>
-    <button id="prijava" type="button">Prijavi se</button>
-
-    <h2> Registracija :)</h2>
-
-
-    <table border=1>
-        <tr>
-            <td>Korisnicko ime</td>
-            <td><input id="korImeReg" type="text" name="KorisnickoIme" /></td>
-        </tr>
-        <tr>
-            <td>Lozinka</td>
-            <td><input id="korPassReg" type="password" name="Lozinka" /></td>
-        </tr>
-
-        <tr>
-            <td>Ime</td>
-            <td><input id="ime" type="text" name="Ime" /></td>
-        </tr>
-
-        <tr>
-            <td>Prezime</td>
-            <td><input id="prezime" type="text" name="Prezime" /></td>
-        </tr>
-
-
-        <tr>
-            <td>JMBG</td>
-            <td><input id="jmbg" type="text" name="JMBG" /></td>
-        </tr>
-
-        <tr>
-            <td>Pol</td>
-            <td>
-                <select name="Pol" id="pol">
-                    <option>
-                        ZENSKI
-                    </option>
-                    <option>
-                        MUSKI
-                    </option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Broj telefona</td>
-            <td><input id="brTelefona" type="text" name="KontaktTelefon" /></td>
-        </tr>
-
-        <tr>
-            <td>Email adresa</td>
-            <td><input id="emailAdr" type="email" name="Email" /></td>
-        </tr>
-
-        <tr>
-            <td>Uloga</td>
-            <td>
-                <select name="Uloga" id="uloga">
-                    <option>
-                        DISPECER
-                    </option>
-                    <option>
-                        VOZAC
-                    </option>
-                    <option>
-                        MUSTERIJA
-                    </option>
-                </select>
-            </td>
-        </tr>
-
-        <tr>
-            <td>Voznja</td>
-            <td><input id="voznja" type="text" name="Voznja" /></td>
-        </tr>
-    </table>
-    <button id="registracija" type="button">Registruj se</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#" class="active" id="login-form-link">Prijava</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#" id="register-form-link">Registracija</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="login-form" style="display: block;">
+                                    <div class="form-group">
+                                        <input type="text" name="KorisnickoIme" id="korIme" tabindex="1" class="form-control" placeholder="Korisnicko ime" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" name="Lozinka" id="korPass" tabindex="1" class="form-control" placeholder="Lozinka" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <button id="prijava" tabindex="4" type="button" class="form-control btn btn-login">Prijavi se</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="register-form" style="display: none;">
+                                    <div class="form-group">
+                                        <input type="text" name="Ime" id="ime" tabindex="1" class="form-control" placeholder="Ime" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="Prezime" id="prezime" tabindex="1" class="form-control" placeholder="Prezime" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="JMBG" id="jmbg" tabindex="1" class="form-control" placeholder="JMBG" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Pol:</label>
+                                        <select name="Pol" class="form-control" id="pol">
+                                            <option>MUSKO</option>
+                                            <option>ZENSKO</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" name="Email" id="emailAdr" tabindex="1" class="form-control" placeholder="Email" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" id="brTelefona" name="KontaktTelefon" tabindex="1" class="form-control" placeholder="Broj telefona" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="voznja" type="text" name="Voznja" tabindex="1" class="form-control" placeholder="Voznja" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="korImeReg" type="text" name="KorisnickoIme"tabindex="1" class="form-control" placeholder="Korisnicko ime" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input id="korPassReg" type="password" name="Lozinka" tabindex="2" class="form-control" placeholder="Lozinka">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <button id="registracija" tabindex="4" type="button" class="form-control btn btn-register">Registruj se</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

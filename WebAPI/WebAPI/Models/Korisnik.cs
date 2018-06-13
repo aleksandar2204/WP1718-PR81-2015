@@ -56,5 +56,7 @@ namespace WebAPI.Models
             this.Voznja = voznja;
         }
         // Dodaj Voznje
+
+        public Korisnik() { }
     }
 }

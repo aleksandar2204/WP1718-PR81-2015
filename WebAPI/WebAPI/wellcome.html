@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            let korisnickoIme = localStorage.getItem("Ulogovan");
+            $("#p1").text("Ulogovan je korisnik " + korisnickoIme);
+
+            let korisnik = {
+                KorisnickoIme: `${korisnickoIme}`
+            }
+                
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Wellcome',
+                    data: JSON.stringify(korisnik),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        alert('Sifra je: ' + data.Lozinka);
+                    }
+                })
+            });
+
+    </script>
+</head>
+<body>
+    <p id="p1"></p>
+</body>
+</html>
