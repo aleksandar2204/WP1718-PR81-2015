@@ -20,7 +20,7 @@ namespace WebAPI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Korisnici korisnici = new Korisnici("~/App_Data/TestFile.txt");
+            Korisnici korisnici = new Korisnici("~/App_Data/Korisnici.txt");
             HttpContext.Current.Application["korisnici"] = korisnici;
 
             Dispeceri dispeceri = new Dispeceri("~/App_Data/Dispeceri.txt");

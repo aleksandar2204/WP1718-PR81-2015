@@ -25,15 +25,13 @@ namespace WebAPI.Controllers
                 }
             }
 
-            foreach (var item in dispeceri.dispecers)
-            {
-                if (item.KorisnickoIme == korisnik.KorisnickoIme)
-                    return false;
-            }
+            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Korisnici.txt";
+            if (users.korisnici.Count == 0)
+                korisnik.Id = 1;
+            else
+                korisnik.Id = users.korisnici.Count;
 
             users.korisnici.Add(korisnik);
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\TestFile.txt";
-            korisnik.Id = users.korisnici.Count;
             StringBuilder sb = new StringBuilder();
             sb.Append(korisnik.Id + ";" + korisnik.KorisnickoIme + ";" + korisnik.Lozinka + ";" + korisnik.Ime + ";" + korisnik.Prezime + ";" + korisnik.Pol + ";" + korisnik.JMBG + ";" + korisnik.Telefon + ";" + korisnik.Email + ";" + korisnik.Uloga + ";" + korisnik.Voznja + "\n");
             if(!File.Exists(path))
@@ -45,7 +43,7 @@ namespace WebAPI.Controllers
                 File.AppendAllText(path, sb.ToString());
             }
 
-            users = new Korisnici(@"~/App_Data/TestFile.txt");
+            users = new Korisnici(@"~/App_Data/Korisnici.txt");
             HttpContext.Current.Application["korisnici"] = users;
 
             return true;

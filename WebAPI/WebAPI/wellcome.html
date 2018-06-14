@@ -1,33 +1,296 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
+    <style>
+        .dropdown-menu-right {
+            right: 0;
+            left: auto;
+        }
+        
+    </style>
     <meta charset="utf-8" />
     <title></title>
     <script src="Scripts/jquery-1.10.2.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="Scripts/jquery-1.10.2.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            let korisnickoIme = localStorage.getItem("Ulogovan");
-            $("#p1").text("Ulogovan je korisnik " + korisnickoIme);
 
-            let korisnik = {
+        $(document).ready(function () {
+            let korisnik;
+            let korisnickoIme = localStorage.getItem("Ulogovan");
+
+            $('#zaprofil').hide();
+            $('#zaizmenu').hide();
+
+            $('#zaprofilDispecer').hide();
+            $('#zaizmenuDispecer').hide();
+
+            let Korisnik = {
                 KorisnickoIme: `${korisnickoIme}`
-            }
-                
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/Wellcome',
+                data: JSON.stringify(Korisnik),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                success: function (data) {
+                    //alert('Sifra je: ' + data.Lozinka);
+                    korisnik = data;
+                    if (korisnik.Uloga == 2) {
+                        $('#dispecer').hide();
+                        $('#musterija').show();
+                    } else if (korisnik.Uloga == 1) {
+                        $('#musterija').hide();
+                        $('#dispecer').show();
+                    }
+                }
+            })
+
+            $('#profil').click(function () {
+                $('#zaizmenu').hide();
+
+                $('#1').text(korisnik.KorisnickoIme);
+                $('#2').text(korisnik.Lozinka);
+                $('#3').text(korisnik.Ime);
+                $('#4').text(korisnik.Prezime);
+                $('#5').text(korisnik.JMBG);
+                if (korisnik.Pol == 1) {
+                    $('#6').text("Zenski");
+                } else {
+                    $('#6').text("Muski");
+                }
+                $('#7').text(korisnik.Telefon);
+                $('#8').text(korisnik.Email);
+                $('#zaprofil').toggle(500);
+            })
+
+            $('#profilDispecer').click(function () {
+                $('zaizmenuDispecer').hide();
+                $('#1D').text(korisnik.KorisnickoIme);
+                $('#2D').text(korisnik.Lozinka);
+                $('#3D').text(korisnik.Ime);
+                $('#4D').text(korisnik.Prezime);
+                $('#5D').text(korisnik.JMBG);
+                if (korisnik.Pol == 1) {
+                    $('#6D').text("Zenski");
+                } else {
+                    $('#6D').text("Muski");
+                }
+                $('#7D').text(korisnik.Telefon);
+                $('#8D').text(korisnik.Email);
+                $('#zaprofilDispecer').toggle(500);
+            })
+
+            $('#izmeniDispecer').click(function () {
+                $('#zaprofilDispecer').hide();
+                $('#zaizmenuDispecer').toggle(500);
+            })
+
+            $('#IzmeniDispecer').click(function () {
+                let dispecerIzmena = {
+                    Id: korisnik.Id,
+                    KorisnickoIme: `${$('#KorisnickoIme').val()}`,
+                    Lozinka: `${$('#Lozinka').val()}`,
+                    Ime: `${$('#Ime').val()}`,
+                    Prezime: `${$('#Prezime').val()}`,
+                    Pol: korisnik.Pol,
+                    JMBG: `${$('#JMBG').val()}`,
+                    Telefon: `${$('#Telefon').val()}`,
+                    Email: `${$('#Email').val()}`,
+                    Uloga: 'MUSTERIJA',
+                    Voznja: "nema voznje",
+                };
+
+
                 $.ajax({
-                    type: 'POST',
-                    url: '/api/Wellcome',
-                    data: JSON.stringify(korisnik),
+                    type: 'PUT',
+                    url: '/api/Dispecer/' + korisnik.Id,
+                    data: JSON.stringify(dispecerIzmena),
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data) {
-                        alert('Sifra je: ' + data.Lozinka);
+                        if (data) {
+                            localStorage.setItem("Ulogovan", dispecerIzmena.KorisnickoIme);
+                            alert('Data was succesfully captured');
+                            $(location).attr('href', 'wellcome.html');
+                        }
+                        else {
+                            alert('Error');
+                        }
                     }
                 })
-            });
+            })
+
+            $('#odjaviDispecer').click(function () {
+                localStorage.setItem("Ulogovan", null);
+                $(location).attr('href', 'index.html');
+            })
+
+            $('#izmeni').click(function () {
+                $('#zaprofil').hide();
+                $('#zaizmenu').toggle(500);
+            })
+
+            $('#Izmeni').click(function () {
+                let korisnikIzmena = {
+                    Id: korisnik.Id,
+                    KorisnickoIme: `${$('#KorisnickoIme').val()}`,
+                    Lozinka: `${$('#Lozinka').val()}`,
+                    Ime: `${$('#Ime').val()}`,
+                    Prezime: `${$('#Prezime').val()}`,
+                    Pol: korisnik.Pol,
+                    JMBG: `${$('#JMBG').val()}`,
+                    Telefon: `${$('#Telefon').val()}`,
+                    Email: `${$('#Email').val()}`,
+                    Uloga: 'MUSTERIJA',
+                    Voznja: "nema voznje",
+                };
+                
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/Korisnik/' + korisnik.Id,
+                    data: JSON.stringify(korisnikIzmena),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            localStorage.setItem("Ulogovan", korisnikIzmena.KorisnickoIme);
+                            alert('Data was succesfully captured');
+                            $(location).attr('href', 'wellcome.html');
+                        }
+                        else {
+                            alert('Error');
+                        }
+                    }
+                })
+            })
+
+            $('#odjavi').click(function () {
+                localStorage.setItem("Ulogovan", null);
+                $(location).attr('href', 'index.html');
+            })
+        });
 
     </script>
 </head>
 <body>
-    <p id="p1"></p>
+    <div id="musterija">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img style="max-width:100px; margin-top: -7px;" src="TaxiLogo.png"></a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Musterija</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" style="float:right">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Opcije
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="profil">Profil</a></li>
+                            <li><a href="#" id="izmeni">Izmeni</a></li>
+                            <li><a href="#" id="odjavi">Odjavi</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br />
+        <br />
+        <br />
+        <div id="zaprofil">
+            <h2>Korisnicki profil</h2>
+            <hr />
+            <table>
+                <tr><th>Korisnicko ime:</th><td id="1"></td></tr>
+                <tr><th>Lozinka:</th><td id="2"></td></tr>
+                <tr><th>Ime:</th><td id="3"></td></tr>
+                <tr><th>Prezime:</th><td id="4"></td></tr>
+                <tr><th>JMBG:</th><td id="5"></td></tr>
+                <tr><th>Pol:</th><td id="6"></td></tr>
+                <tr><th>Kontakt Telefon:</th><td id="7"></td></tr>
+                <tr><th>Email:</th><td id="8"></td></tr>
+            </table>
+        </div>
+        <div id="zaizmenu">
+            <table>
+                <tr><th>Korisnicko ime:</th><td><input type="text" name="KorisnickoIme" id="KorisnickoIme" style="margin:5px" /></td></tr>
+                <tr><th>Lozinka:</th><td><input type="password" name="Lozinka" id="Lozinka" style="margin:5px" /></td></tr>
+                <tr><th>Ime:</th><td><input type="text" name="Ime" id="Ime" style="margin:5px" /></td></tr>
+                <tr><th>Prezime:</th><td><input type="text" name="Prezime" id="Prezime" style="margin:5px" /></td></tr>
+                <tr><th>JMBG:</th><td><input type="text" name="JMBG" id="JMBG" style="margin:5px" /></td></tr>
+                <tr><th>Kontakt Telefon:</th><td><input type="text" name="Telefon" id="Telefon" style="margin:5px" /></td></tr>
+                <tr><th>Email:</th><td><input type="email" name="Email" id="Email" style="margin:5px" /></td></tr>
+                <tr><td colspan="2"><hr /></td></tr>
+                <tr><td colspan="2" align="right"><b><input type="button" value="Izmeni" id="Izmeni" /></b></td></tr>
+            </table>
+        </div>
+    </div>
+    <div id="dispecer">
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img style="max-width:100px; margin-top: -7px;" src="TaxiLogo.png"></a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Dispecer</a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown" style="float:right">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Opcije
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="profilDispecer">Profil</a></li>
+                            <li><a href="#" id="izmeniDispecer">Izmeni</a></li>
+                            <li><a href="#" id="odjaviDispecer">Odjavi</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <br />
+        <br />
+        <br />
+        <div id="zaprofilDispecer">
+            <h2>Korisnicki profil</h2>
+            <hr />
+            <table>
+                <tr><th>Korisnicko ime:</th><td id="1D"></td></tr>
+                <tr><th>Lozinka:</th><td id="2D"></td></tr>
+                <tr><th>Ime:</th><td id="3D"></td></tr>
+                <tr><th>Prezime:</th><td id="4D"></td></tr>
+                <tr><th>JMBG:</th><td id="5D"></td></tr>
+                <tr><th>Pol:</th><td id="6D"></td></tr>
+                <tr><th>Kontakt Telefon:</th><td id="7D"></td></tr>
+                <tr><th>Email:</th><td id="8D"></td></tr>
+            </table>
+        </div>
+        <div id="zaizmenuDispecer">
+            <table>
+                <tr><th>Korisnicko ime:</th><td><input type="text" name="KorisnickoIme" id="KorisnickoImeD" style="margin:5px" /></td></tr>
+                <tr><th>Lozinka:</th><td><input type="password" name="Lozinka" id="LozinkaD" style="margin:5px" /></td></tr>
+                <tr><th>Ime:</th><td><input type="text" name="Ime" id="ImeD" style="margin:5px" /></td></tr>
+                <tr><th>Prezime:</th><td><input type="text" name="Prezime" id="PrezimeD" style="margin:5px" /></td></tr>
+                <tr><th>JMBG:</th><td><input type="text" name="JMBG" id="JMBGD" style="margin:5px" /></td></tr>
+                <tr><th>Kontakt Telefon:</th><td><input type="text" name="Telefon" id="TelefonD" style="margin:5px" /></td></tr>
+                <tr><th>Email:</th><td><input type="email" name="Email" id="EmailD" style="margin:5px" /></td></tr>
+                <tr><td colspan="2"><hr /></td></tr>
+                <tr><td colspan="2" align="right"><b><input type="button" value="Izmeni" id="IzmeniDispecer" /></b></td></tr>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

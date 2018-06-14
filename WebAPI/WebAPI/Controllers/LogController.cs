@@ -14,6 +14,7 @@ namespace WebAPI.Controllers
         public bool Post([FromBody]Korisnik korisnik)
         {
             Korisnici users = (Korisnici)HttpContext.Current.Application["korisnici"];
+            Dispeceri dispeceri = (Dispeceri)HttpContext.Current.Application["dispeceri"];
             foreach (var item in users.korisnici)
             {
                 if(item.KorisnickoIme == korisnik.KorisnickoIme && item.Lozinka == korisnik.Lozinka)
@@ -21,7 +22,14 @@ namespace WebAPI.Controllers
                     return true;
                 }
             }
+
+            foreach (var item in dispeceri.dispecers)
+            {
+                if (item.KorisnickoIme == korisnik.KorisnickoIme && item.Lozinka == korisnik.Lozinka)
+                    return true;
+            }
             return false;
         }
+
     }
 }

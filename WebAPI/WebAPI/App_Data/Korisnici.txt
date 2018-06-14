@@ -1,0 +1,5 @@
+0;els;els;elena;elena;ZENSKO;46644;541984;eli@gmail.com;MUSTERIJA;nema voznje
+1;sdfasdf;sdfasfd;sadfasfd;sadfasfd;ZENSKO;sdafasdf;sadfsadf;asdfasf;MUSTERIJA;nema voznje
+2;Acika;acka;Aleksandra;Dondur;ZENSKO;654161231;0645821643;aleksandra@gmail.com;MUSTERIJA;nema
+3;eli;eli;Elena;Kuzet;ZENSKO;4646510;46540651;eli@gmail.com;MUSTERIJA;nema voznje
+4;elena1;elena;elena;elena;ZENSKO;43132;8432131;eli@gmail.com;MUSTERIJA;new

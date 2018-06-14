@@ -23,6 +23,14 @@ namespace WebAPI.Controllers
                     return item;
                 }
             }
+
+            foreach (var item in dispeceri.dispecers)
+            {
+                if (korisnik.KorisnickoIme == item.KorisnickoIme)
+                {
+                    return item;
+                }
+            }
             return null;
         }
     }

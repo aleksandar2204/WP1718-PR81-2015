@@ -67,7 +67,7 @@
             }
 
         .btn-login {
-            background-color: #59B2E0;
+            background-color: #FFCC00;
             outline: none;
             color: #fff;
             font-size: 14px;
@@ -75,14 +75,14 @@
             font-weight: normal;
             padding: 14px 0;
             text-transform: uppercase;
-            border-color: #59B2E6;
+            border-color: #FFCC00;
         }
 
             .btn-login:hover,
             .btn-login:focus {
                 color: #fff;
-                background-color: #53A3CD;
-                border-color: #53A3CD;
+                background-color: #FFCC00;
+                border-color: #FFCC00;
             }
 
         .forgot-password {
@@ -97,7 +97,7 @@
             }
 
         .btn-register {
-            background-color: #1CB94E;
+            background-color: #FFCC00;
             outline: none;
             color: #fff;
             font-size: 14px;
@@ -105,14 +105,14 @@
             font-weight: normal;
             padding: 14px 0;
             text-transform: uppercase;
-            border-color: #1CB94A;
+            border-color: #FFCC00;
         }
 
             .btn-register:hover,
             .btn-register:focus {
                 color: #fff;
-                background-color: #1CA347;
-                border-color: #1CA347;
+                background-color: #FFCC00;
+                border-color: #FFCC00;
             }
     </style>
     <script src="Scripts/jquery-1.10.2.js"></script>
@@ -121,14 +121,14 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#login-form-link').click(function () {
+            $('#login-form-link').click(function (e) {
                 $("#login-form").delay(100).fadeIn(100);
                 $("#register-form").fadeOut(100);
                 $('#register-form-link').removeClass('active');
                 $(this).addClass('active');
                 e.preventDefault();
             });
-            $('#register-form-link').click(function () {
+            $('#register-form-link').click(function (e) {
                 $("#register-form").delay(100).fadeIn(100);
                 $("#login-form").fadeOut(100);
                 $('#login-form-link').removeClass('active');
@@ -169,7 +169,7 @@
                     Pol: `${$('#pol').val()}`,
                     JMBG: `${$('#jmbg').val()}`,
                     Telefon: `${$('#brTelefona').val()}`,
-                    Email: `${$('#email').val()}`,
+                    Email: `${$('#emailAdr').val()}`,
                     Uloga: 'MUSTERIJA',
                     Voznja: `${$('#voznja').val()}`,
                 };
@@ -196,6 +196,16 @@
     </script>
 </head>
 <body>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#"><img style="max-width:100px; margin-top: -7px;" src="TaxiLogo.png"></a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Pocetna</a></li>
+            </ul>
+        </div>
+    </nav>
     <div class="container">
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
@@ -256,7 +266,7 @@
                                         <input id="voznja" type="text" name="Voznja" tabindex="1" class="form-control" placeholder="Voznja" value="">
                                     </div>
                                     <div class="form-group">
-                                        <input id="korImeReg" type="text" name="KorisnickoIme"tabindex="1" class="form-control" placeholder="Korisnicko ime" value="">
+                                        <input id="korImeReg" type="text" name="KorisnickoIme" tabindex="1" class="form-control" placeholder="Korisnicko ime" value="">
                                     </div>
                                     <div class="form-group">
                                         <input id="korPassReg" type="password" name="Lozinka" tabindex="2" class="form-control" placeholder="Lozinka">
