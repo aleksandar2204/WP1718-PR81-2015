@@ -181,6 +181,7 @@
     <Compile Include="Models\TipAutomobila.cs" />
     <Compile Include="Models\Uloga.cs" />
     <Compile Include="Models\Vozac.cs" />
+    <Compile Include="Models\Vozaci.cs" />
     <Compile Include="Models\Voznja.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

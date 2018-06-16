@@ -183,6 +183,7 @@
                     success: function (data) {
                         if (data) {
                             alert('Data was succesfully captured');
+                            $(location).attr('href', 'index.html');
                         }
                         else {
                             alert('Error');

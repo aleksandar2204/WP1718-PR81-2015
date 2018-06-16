@@ -15,7 +15,6 @@ namespace WebAPI.Controllers
     {
         public bool Post([FromBody]Korisnik korisnik)
         {
-            Dispeceri dispeceri = (Dispeceri)HttpContext.Current.Application["dispeceri"];
             Korisnici users = (Korisnici)HttpContext.Current.Application["korisnici"];
             foreach (var item in users.korisnici)
             {

@@ -1,1 +1,2 @@
-﻿
+0;acx;acx;Aleksandar;Dondur;MUSKO;5614665;6541646;dondur@gmail.com;VOZAC;nema voznje-5|7|Alekse Santica 3||78000|acx|205|4621|654|PUTNICKIAUTOMOBIL
+1;acili;acili;Aleksandar;Dondur;ZENSKO;2204996100008;654646;dondur@gmail.com;VOZAC;nema voznje-5|3|g 7 |BL|78000|acili|2015|12|12|PUTNICKIAUTOMOBIL
