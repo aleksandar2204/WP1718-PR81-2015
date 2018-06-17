@@ -197,7 +197,7 @@
                     UlicaBroj: `${$('#UlicaBrojVozaca').val()}`,
                     NaseljenoMjesto: `${$('#NaseljenoMestoVozaca').val()}`,
                     PozivniBroj: `${$('#PozivniBrojVozaca').val()}`
-                }
+                };
 
                 let lokacija = {
                     X: `${$('#XVozaca').val()}`,
@@ -251,6 +251,45 @@
                 $('#zaprofilDispecer').hide();
                 $('#zaizmenuDispecer').hide();
                 $('#zadodajVozaca').toggle(500);
+            })
+
+            // Dodavanje Voznje
+
+            $('#DodajVoznju').click(function () {
+                let adresa = {
+                    UlicaBroj: `${$('#korisnikUlicaBroj').val()}`,
+                    NaseljenoMjesto: `${$('#korisnikNaseljenoMesto').val()}`,
+                    PozivniBroj: `${$('#korisnikPozivniBroj').val()}`
+                };
+
+                let lokacija = {
+                    X: `${$('#korisnikLokacijaX').val()}`,
+                    Y: `${$('#korisnikLokacijaY').val()}`,
+                    Adresa: adresa
+                };
+
+                let NovaVoznjaKorisnika = {
+                    Lokacija: lokacija,
+                    Automobil: `${$('#TipVozila').val()}`,
+                    Musterija: korisnik.Id,
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/Registration/Post',
+                    data: JSON.stringify(NovaVoznjaKorisnika),
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data) {
+                            alert("Vožnja nije dodata!");
+                        } else {
+                            alert("Uspešno ste dodali novu vožnju!");
+                        }
+                    }
+                })
+            })
+
             })
 
             // Kad se uloguje VOZAC
@@ -343,9 +382,52 @@
                 })
             })
 
+            $('#promenaLokacijeVozacaDugme').click(function () {
+                let adresa = {
+                    UlicaBroj: `${$('#UlicaBrojZaLokaciju').val()}`,
+                    NaseljenoMjesto: `${$('#NaseljenoMestoZaLokaciju').val()}`,
+                    PozivniBroj: `${$('#PozivniBrojZaLokaciju').val()}`
+                }
+
+                let lokacija = {
+                    X: `${$('#XZaLokaciju').val()}`,
+                    Y: `${$('#YZaLokaciju').val()}`,
+                    Adresa: adresa
+                };
+
+                let vozac = {
+                    Id: korisnik.Id,
+                    Lokacija: lokacija
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/Vozac/',
+                    data: JSON.stringify(vozac),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data) {
+                            localStorage.setItem("Ulogovan", korisnik.KorisnickoIme);
+                            alert('Data was succesfully captured');
+                            $(location).attr('href', 'wellcome.html');
+                        }
+                        else {
+                            alert('Error');
+                        }
+                    }
+                })
+
+            })
+
             $('#izmeniVozaca').click(function () {
                 $('#zaprofilVozaca').hide();
                 $('#zaizmenuVozaca').toggle(500);
+            })
+
+            $('#odjaviVozaca').click(function () {
+                localStorage.setItem("Ulogovan", null);
+                $(location).attr('href', 'index.html');
             })
         });
 
@@ -380,6 +462,28 @@
         <br />
         <br />
         <br />
+        <div id="divDodajVoznju">
+            <h2>Kreiraj voznju:</h2>
+            <hr />
+            <table>
+                <tr><td colsapn="2"><hr /></td></tr>
+                <tr><td>Koordinata X:</td><td><input type="text" style="margin:5px;" name="X" id="korisnikLokacijaX" /></td></tr>
+                <tr><td>Koordinata Y:</td><td><input type="text" style="margin:5px;" name="Y" id="korisnikLokacijaY" /></td></tr>
+                <tr><td>Ulica i broj:</td><td><input type="text" style="margin:5px;" name="UlicaBroj" id="korisnikUlicaBroj"/></td></tr>
+                <tr><td>Naseljeno mesto:</td><td><input type="text" style="margin:5px;" name="NaseljenoMesto" id="korisnikNaseljenoMesto" /></td></tr>
+                <tr><td>Pozivni broj:</td><td><input type="text" style="margin:5px;" name="PozivniBroj" id="korisnikPozivniBroj" /></td></tr>
+                <tr>
+                    <td>Željeni tip automobila:</td>
+                    <td>
+                        <select name="Tip" class="form-control" id="TipVozila">
+                            <option>PUTNICKI AUTOMOBIL</option>
+                            <option>KOMBI VOZILO</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td colspan="2" align="right"><input type="button" style="margin:5px;" name="DodajVoznju" id="DodajVoznju" value="Dodaj" /></td></tr>
+            </table>
+        </div>
         <div id="zaprofil">
             <h2>Korisnicki profil</h2>
             <hr />
@@ -600,6 +704,17 @@
                 </tr>
                 <tr><td colspan="2"><hr /></td></tr>
                 <tr><td colspan="2" align="right"><b><input type="button" value="Izmeni" id="IzmeniVozaca" /></b></td></tr>
+            </table>
+        </div>
+        <div id="promenaLokacijeVozaca">
+            <table>
+                <tr><th>X:</th><td><input type="text" name="X" id="XZaLokaciju" style="margin:5px" /></td></tr>
+                <tr><th>Y:</th><td><input type="text" name="Y" id="YZaLokaciju" style="margin:5px" /></td></tr>
+                <tr><th>Ulica i broj:</th><td><input type="text" name="UlicaBroj" id="UlicaBrojZaLokaciju" style="margin:5px" /></td></tr>
+                <tr><th>Naseljeno mjesto:</th><td><input type="text" name="NaseljenoMjesto" id="NaseljenoMestoZaLokaciju" style="margin:5px" /></td></tr>
+                <tr><th>Pozivni broj:</th><td><input type="text" name="PozivniBroj" id="PozivniBrojZaLokaciju" style="margin:5px" /></td></tr>
+                <tr><td colspan="2"><hr /></td></tr>
+                <tr><td colspan="2" align="right"><b><input type="button" value="Izmeni" id="promenaLokacijeVozacaDugme" /></b></td></tr>
             </table>
         </div>
     </div>

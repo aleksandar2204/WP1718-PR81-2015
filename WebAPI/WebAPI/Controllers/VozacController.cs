@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
             v.vozaci.Add(vozac);
             StringBuilder sb = new StringBuilder();
             
-            sb.Append(vozac.Id + ";" + vozac.KorisnickoIme + ";" + vozac.Lozinka + ";" + vozac.Ime + ";" + vozac.Prezime + ";" + vozac.Pol + ";" + vozac.JMBG + ";" + vozac.Telefon + ";" + vozac.Email + ";" + vozac.Uloga + ";" + vozac.Voznja + "-" + vozac.Lokacija.X + "|" + vozac.Lokacija.Y + "|" + vozac.Lokacija.Adresa.UlicaBroj + "|" + vozac.Lokacija.Adresa.NaseljenoMjesto + "|" + vozac.Lokacija.Adresa.PozivniBroj + "|" + vozac.Automobil.Vozac + "|" + vozac.Automobil.GodisteAutomobila + "|" + vozac.Automobil.BrojRegistarskeOznake + "|" + vozac.Automobil.BrojTaksiVozila + "|" + vozac.Automobil.Tip + "\n");
+            sb.Append(vozac.Id + ";" + vozac.KorisnickoIme + ";" + vozac.Lozinka + ";" + vozac.Ime + ";" + vozac.Prezime + ";" + vozac.Pol + ";" + vozac.JMBG + ";" + vozac.Telefon + ";" + vozac.Email + ";" + vozac.Uloga + ";" + vozac.Voznja + ";" + vozac.Lokacija.X + ";" + vozac.Lokacija.Y + ";" + vozac.Lokacija.Adresa.UlicaBroj + ";" + vozac.Lokacija.Adresa.NaseljenoMjesto + ";" + vozac.Lokacija.Adresa.PozivniBroj + ";" + vozac.Automobil.Vozac + ";" + vozac.Automobil.GodisteAutomobila + ";" + vozac.Automobil.BrojRegistarskeOznake + ";" + vozac.Automobil.BrojTaksiVozila + ";" + vozac.Automobil.Tip + "\n");
             if (!File.Exists(path))
             {
                 File.WriteAllText(path, sb.ToString());
@@ -74,7 +74,32 @@ namespace WebAPI.Controllers
                     item.Automobil.Tip = korisnik.Automobil.Tip;
                     item.Automobil.Vozac = korisnik.Automobil.Vozac;
                     StringBuilder sb = new StringBuilder();
-                    sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + "-" + item.Lokacija.X + "|" + item.Lokacija.Y + "|" + item.Lokacija.Adresa.UlicaBroj + "|" + item.Lokacija.Adresa.NaseljenoMjesto + "|" + item.Lokacija.Adresa.PozivniBroj + "|" + item.Automobil.Vozac + "|" + item.Automobil.GodisteAutomobila + "|" + item.Automobil.BrojRegistarskeOznake + "|" + item.Automobil.BrojTaksiVozila + "|" + item.Automobil.Tip + "\n");
+                    sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil.Vozac + ";" + item.Automobil.GodisteAutomobila + ";" + item.Automobil.BrojRegistarskeOznake + ";" + item.Automobil.BrojTaksiVozila + ";" + item.Automobil.Tip + "\n");
+                    string[] arrLine = File.ReadAllLines(path);
+                    arrLine[item.Id] = sb.ToString();
+                    File.WriteAllLines(path, arrLine);
+                    File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool Put([FromBody]Vozac vozac)
+        {
+            Vozaci vozaci = (Vozaci)HttpContext.Current.Application["vozaci"];
+            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Vozaci.txt";
+            foreach (var item in vozaci.vozaci)
+            {
+                if (item.Id == vozac.Id)
+                {
+                    item.Lokacija.X = vozac.Lokacija.X;
+                    item.Lokacija.Y = vozac.Lokacija.Y;
+                    item.Lokacija.Adresa.UlicaBroj = vozac.Lokacija.Adresa.UlicaBroj;
+                    item.Lokacija.Adresa.NaseljenoMjesto = vozac.Lokacija.Adresa.NaseljenoMjesto;
+                    item.Lokacija.Adresa.PozivniBroj = vozac.Lokacija.Adresa.PozivniBroj;
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil.Vozac + ";" + item.Automobil.GodisteAutomobila + ";" + item.Automobil.BrojRegistarskeOznake + ";" + item.Automobil.BrojTaksiVozila + ";" + item.Automobil.Tip + "\n");
                     string[] arrLine = File.ReadAllLines(path);
                     arrLine[item.Id] = sb.ToString();
                     File.WriteAllLines(path, arrLine);
