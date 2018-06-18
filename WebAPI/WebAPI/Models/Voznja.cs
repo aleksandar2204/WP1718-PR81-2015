@@ -11,11 +11,11 @@ namespace WebAPI.Models
     {
         public Voznja() { }
 
-        public Voznja(string DatumVreme, string X, string Y, string UlicaBroj, string NaseljenoMesto, string PozivniBroj, string TipAutomobila, string IdMusterije, string XOdrediste, string YOdrediste, string UlicaBrojOdrediste, string NaseljenoMestoOdrediste, string PozivniBrojOdrediste, string IdDispecera, string IdVozaca, string Iznos, string OpsiKomentara, string DatumKomentara, string KorisnickoImeOnogKoPraviKomentar, string IdVoznje, string Ocena, string StatusV)
+        public Voznja(string IdVoznje, string DatumVreme, string X, string Y, string UlicaBroj, string NaseljenoMesto, string PozivniBroj, string TipAutomobila, string IdMusterije, string XOdrediste, string YOdrediste, string UlicaBrojOdrediste, string NaseljenoMestoOdrediste, string PozivniBrojOdrediste, string IdDispecera, string IdVozaca, string Iznos, string OpsiKomentara, string DatumKomentara, string KorisnickoImeOnogKoPraviKomentar, string Ocena, string StatusV)
         {
             this.IdVoznje = Int32.Parse(IdVoznje);
             this.VremePorudzbine = DateTime.Parse(DatumVreme);
-            LokacijaDolaskaTaksija = new Lokacija(X, Y, UlicaBroj, NaseljenoMesto, PozivniBroj);
+            Lokacija = new Lokacija(X, Y, UlicaBroj, NaseljenoMesto, PozivniBroj);
 
             if (TipAutomobila.Equals("PUTNICKI AUTOMOBIL"))
             {
@@ -67,7 +67,7 @@ namespace WebAPI.Models
         }
         public int IdVoznje { get; set; }
         public DateTime VremePorudzbine { get; set; }
-        public Lokacija LokacijaDolaskaTaksija { get; set; }
+        public Lokacija Lokacija { get; set; }
         public Tip Automobil { get; set; }
         public int Musterija { get; set; }
         public Lokacija Odrediste { get; set; }

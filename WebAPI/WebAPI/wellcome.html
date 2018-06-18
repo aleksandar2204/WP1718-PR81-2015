@@ -24,6 +24,9 @@
 
             $('#zaprofil').hide();
             $('#zaizmenu').hide();
+            $('#divDodajVoznju').hide();
+            $('#divIzmeniVoznju').hide();
+            $('#divOtkaziVoznju').hide();
 
             $('#zaprofilDispecer').hide();
             $('#zaizmenuDispecer').hide();
@@ -66,8 +69,8 @@
             
 
             $('#profilDispecer').click(function () {
-                $('zaizmenuDispecer').hide();
-                $('zadodajVozaca').hide();
+                $('#zaizmenuDispecer').hide();
+                $('#zadodajVozaca').hide();
                 $('#1D').text(korisnik.KorisnickoIme);
                 $('#2D').text(korisnik.Lozinka);
                 $('#3D').text(korisnik.Ime);
@@ -131,7 +134,9 @@
 
             $('#profil').click(function () {
                 $('#zaizmenu').hide();
-
+                $('#divIzmeniVoznju').hide();
+                $('divDodajVoznju').hide();
+                $('divOtkaziVoznju').hide();
                 $('#1').text(korisnik.KorisnickoIme);
                 $('#2').text(korisnik.Lozinka);
                 $('#3').text(korisnik.Ime);
@@ -149,6 +154,9 @@
 
             $('#izmeni').click(function () {
                 $('#zaprofil').hide();
+                $('#divIzmeniVoznju').hide();
+                $('divDodajVoznju').hide();
+                $('divOtkaziVoznju').hide();
                 $('#zaizmenu').toggle(500);
             })
 
@@ -238,6 +246,7 @@
                     success: function (data) {
                         if (data) {
                             alert('Data was succesfully captured');
+                            $(location).attr('href', 'wellcome.html');
                         }
                         else {
                             alert('Error');
@@ -253,7 +262,15 @@
                 $('#zadodajVozaca').toggle(500);
             })
 
-            // Dodavanje Voznje
+            // Dodavanje Voznje iz korisnika
+
+            $('#dodajVoznjuKorisnik').click(function () {
+                $('#zaprofil').hide();
+                $('#zaizmenu').hide();
+                $('#divIzmeniVoznju').hide();
+                $('#divOtkaziVoznju').hide();
+                $('#divDodajVoznju').toggle(500);
+            })
 
             $('#DodajVoznju').click(function () {
                 let adresa = {
@@ -285,11 +302,96 @@
                             alert("Vožnja nije dodata!");
                         } else {
                             alert("Uspešno ste dodali novu vožnju!");
+                            $(location).attr('href', 'wellcome.html');
                         }
                     }
                 })
             })
 
+            $('#izmeniVoznjuKorisnik').click(function () {
+                $('#zaprofil').hide();
+                $('#zaizmenu').hide();
+                $('#divDodajVoznju').hide();
+                $('#divOtkaziVoznju').hide();
+                $('#divIzmeniVoznju').toggle(500);
+            })
+
+            $('#IzmeniVoznju').click(function () {
+                let adresa = {
+                    UlicaBroj: `${$('#korisnikUlicaBrojIzmena').val()}`,
+                    NaseljenoMjesto: `${$('#korisnikNaseljenoMestoIzmena').val()}`,
+                    PozivniBroj: `${$('#korisnikPozivniBrojIzmena').val()}`
+                };
+
+                let lokacija = {
+                    X: `${$('#korisnikLokacijaXIzmena').val()}`,
+                    Y: `${$('#korisnikLokacijaYIzmena').val()}`,
+                    Adresa: adresa
+                };
+
+                let NovaVoznjaKorisnika = {
+                    Lokacija: lokacija,
+                    Automobil: `${$('#TipVozilaIzmena').val()}`,
+                    Musterija: korisnik.Id,
+                }
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/Voznja/',
+                    data: JSON.stringify(NovaVoznjaKorisnika),
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data) {
+                            alert("Vožnja nije izmenjena!");
+                        } else {
+                            alert("Uspešno ste izmenili vožnju!");
+                            $(location).attr('href', 'wellcome.html');
+                        }
+                    }
+                })
+            })
+
+            $('#odustaniOdVoznjeKorisnik').click(function () {
+                $('#zaprofil').hide();
+                $('#zaizmenu').hide();
+                $('#divDodajVoznju').hide();
+                $('#divIzmeniVoznju').hide();
+                $('#divOtkaziVoznju').toggle(500);
+            })
+
+            $('#OtkaziKorisnik').click(function () {
+                let adresa = {
+                    UlicaBroj: `${$('#korisnikUlicaBrojIzmena').val()}`,
+                    NaseljenoMjesto: `${$('#korisnikNaseljenoMestoIzmena').val()}`,
+                    PozivniBroj: `${$('#korisnikPozivniBrojIzmena').val()}`
+                };
+
+                let komentar = {
+                    Opis: `${$('#OpisKorisnik').val()}`,
+                    OcenaVoznje: `${$('#OcenaVoznjeKorisnik').val()}`
+                };
+
+                let OtkaziVoznju = {
+                    Komentar: komentar,
+                    Musterija: korisnik.Id,
+                };
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '/api/Voznja/PUT',
+                    data: JSON.stringify(OtkaziVoznju),
+                    contentType: 'application/json;charset=utf-8',
+                    dataType: 'json',
+                    success: function (data) {
+                        if (!data) {
+                            alert("Vožnja nije otkazana!");
+                        } else {
+                            alert("Uspešno ste otkazali vožnju!");
+                            $(location).attr('href', 'wellcome.html');
+                        }
+                    }
+                })
             })
 
             // Kad se uloguje VOZAC
@@ -442,7 +544,19 @@
                 </div>
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Musterija</a></li>
-
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            Voznja
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" id="dodajVoznjuKorisnik">Dodaj voznju</a></li>
+                            <li><a href="#" id="izmeniVoznjuKorisnik">Izmeni voznju</a></li>
+                            <li><a href="#" id="odustaniOdVoznjeKorisnik">Odustani od voznje</a></li>
+                        </ul>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown" style="float:right">
@@ -482,6 +596,38 @@
                     </td>
                 </tr>
                 <tr><td colspan="2" align="right"><input type="button" style="margin:5px;" name="DodajVoznju" id="DodajVoznju" value="Dodaj" /></td></tr>
+            </table>
+        </div>
+        <div id="divIzmeniVoznju">
+            <h2>Izmeni voznju:</h2>
+            <hr />
+            <table>
+                <tr><td colsapn="2"><hr /></td></tr>
+                <tr><td>Koordinata X:</td><td><input type="text" style="margin:5px;" name="X" id="korisnikLokacijaXIzmena" /></td></tr>
+                <tr><td>Koordinata Y:</td><td><input type="text" style="margin:5px;" name="Y" id="korisnikLokacijaYIzmena" /></td></tr>
+                <tr><td>Ulica i broj:</td><td><input type="text" style="margin:5px;" name="UlicaBroj" id="korisnikUlicaBrojIzmena" /></td></tr>
+                <tr><td>Naseljeno mesto:</td><td><input type="text" style="margin:5px;" name="NaseljenoMesto" id="korisnikNaseljenoMestoIzmena" /></td></tr>
+                <tr><td>Pozivni broj:</td><td><input type="text" style="margin:5px;" name="PozivniBroj" id="korisnikPozivniBrojIzmena" /></td></tr>
+                <tr>
+                    <td>Željeni tip automobila:</td>
+                    <td>
+                        <select name="Tip" class="form-control" id="TipVozilaIzmena">
+                            <option>PUTNICKI AUTOMOBIL</option>
+                            <option>KOMBI VOZILO</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td colspan="2" align="right"><input type="button" style="margin:5px;" name="IzmeniVoznju" id="IzmeniVoznju" value="Izmeni" /></td></tr>
+            </table>
+        </div>
+        <div id="divOtkaziVoznju">
+            <h2>Komentar za voznju:</h2>
+            <hr />
+            <table>
+                <tr><td colsapn="2"><hr /></td></tr>
+                <tr><td>Opis:</td><td><input type="text" style="margin:5px;" name="Opis" id="OpisKorisnik" /></td></tr>
+                <tr><td>Ocena voznje:</td><td><input type="text" style="margin:5px;" name="OcenaVoznje" id="OcenaVoznjeKorisnik" /></td></tr>
+                <tr><td colspan="2" align="right"><input type="button" style="margin:5px;" name="OtkaziVoznju" id="OtkaziKorisnik" value="Otkazi" /></td></tr>
             </table>
         </div>
         <div id="zaprofil">
@@ -530,6 +676,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="#" id="dodajVozaca">Vozaca</a></li>
+                            <li><a href="#" id="dodajVoznju">Voznju</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -586,6 +733,28 @@
                 </select></td></tr>
                 <tr><td colspan="2"><hr /></td></tr>
                 <tr><td colspan="2" align="right"><b><input type="button" value="Dodaj" id="DodajVozaca" /></b></td></tr>
+            </table>
+        </div>
+        <div id="zadodajVoznju">
+            <h2>Kreiraj voznju:</h2>
+            <hr />
+            <table>
+                <tr><td colsapn="2"><hr /></td></tr>
+                <tr><td>Koordinata X:</td><td><input type="text" style="margin:5px;" name="X" id="dispecerLokacijaX" /></td></tr>
+                <tr><td>Koordinata Y:</td><td><input type="text" style="margin:5px;" name="Y" id="dispecerLokacijaY" /></td></tr>
+                <tr><td>Ulica i broj:</td><td><input type="text" style="margin:5px;" name="UlicaBroj" id="dispecerUlicaBroj" /></td></tr>
+                <tr><td>Naseljeno mesto:</td><td><input type="text" style="margin:5px;" name="NaseljenoMesto" id="dispecerNaseljenoMesto" /></td></tr>
+                <tr><td>Pozivni broj:</td><td><input type="text" style="margin:5px;" name="PozivniBroj" id="dispecerPozivniBroj" /></td></tr>
+                <tr>
+                    <td>Željeni tip automobila:</td>
+                    <td>
+                        <select name="Tip" class="form-control" id="dispecerTipVozila">
+                            <option>PUTNICKI AUTOMOBIL</option>
+                            <option>KOMBI VOZILO</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr><td colspan="2" align="right"><input type="button" style="margin:5px;" name="DodajVoznju" id="dispecerDodajVoznju" value="Dodaj" /></td></tr>
             </table>
         </div>
         <div id="zaprofilDispecer">

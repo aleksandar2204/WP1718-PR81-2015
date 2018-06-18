@@ -26,6 +26,11 @@ namespace WebAPI.Controllers
 
             string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Vozaci.txt";
 
+            if (v.vozaci.Count == 0)
+                vozac.Id = 1;
+            else
+                vozac.Id = v.vozaci.Count;
+
             vozac.Id = v.vozaci.Count;
             v.vozaci.Add(vozac);
             StringBuilder sb = new StringBuilder();
@@ -101,7 +106,7 @@ namespace WebAPI.Controllers
                     StringBuilder sb = new StringBuilder();
                     sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil.Vozac + ";" + item.Automobil.GodisteAutomobila + ";" + item.Automobil.BrojRegistarskeOznake + ";" + item.Automobil.BrojTaksiVozila + ";" + item.Automobil.Tip + "\n");
                     string[] arrLine = File.ReadAllLines(path);
-                    arrLine[item.Id] = sb.ToString();
+                    arrLine[item.Id - 1] = sb.ToString();
                     File.WriteAllLines(path, arrLine);
                     File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
                     return true;

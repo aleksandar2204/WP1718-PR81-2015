@@ -53,19 +53,31 @@ namespace WebAPI.Controllers
         {
             Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
 
-            voznja.IdVoznje = voznje.voznje.Count + 1;
+            foreach (var item in voznje.voznje) // Nece se dodati za istu Musteriju voznja koja je kreirana i na cekanju
+            {                                   // jer klijent moze imati samo jednu voznju koja je na cekanju
+                if(item.Status == StatusVoznje.Status.KREIRANA_NA_CEKANJU && item.Musterija == voznja.Musterija)
+                {
+                    return false;
+                }
+            }
+
+            if (voznje.voznje.Count == 0)
+                voznja.IdVoznje = 1;
+            else
+                voznja.IdVoznje = voznje.voznje.Count;
+
             voznja.VremePorudzbine = DateTime.Now;
 
-            voznja.Status = StatusVoznje.Status.FORMIRANA;
+            voznja.Status = StatusVoznje.Status.KREIRANA_NA_CEKANJU;
 
             voznja.Odrediste = new Lokacija("", "", "", "", "");
             voznja.Komentar = new Komentar("", DateTime.Now.ToString(), "", voznja.IdVoznje.ToString(), "0");
 
             voznje.voznje.Add(voznja);
-            string path = @"C:\Users\PC\Desktop\WEBproject\WP1718-PR51-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
+            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(voznja.IdVoznje + ";" + voznja.VremePorudzbine + ";" + voznja.LokacijaDolaskaTaksija.X + ";" + voznja.Lokacija.Y + ";" + voznja.Lokacija.Adresa.UlicaBroj + ";" + voznja.LokacijaDolaskaTaksija.Adresa.NaseljenoMjesto + ";" + voznja.LokacijaDolaskaTaksija.Adresa.PozivniBroj + ";" + voznja.Automobil + ";" + voznja.Musterija + ";" + voznja.Odrediste.X + ";" + voznja.Odrediste.Y + ";" + voznja.Odrediste.Adresa.UlicaBroj + ";" + voznja.Odrediste.Adresa.NaseljenoMjesto + ";" + voznja.Odrediste.Adresa.PozivniBroj + ";" + voznja.Dispecer + ";" + voznja.Vozac + ";" + voznja.Iznos + ";" + voznja.Komentar.Opis + ";" + voznja.Komentar.DatumObjave + ";" + voznja.Komentar.KorisnickoIme + ";" + voznja.Komentar.IdVoznje + ";" + voznja.Komentar.OcenaVoznje + ";" + voznja.Status + "\n");
+            sb.Append(voznja.IdVoznje + ";" + voznja.VremePorudzbine + ";" + voznja.Lokacija.X + ";" + voznja.Lokacija.Y + ";" + voznja.Lokacija.Adresa.UlicaBroj + ";" + voznja.Lokacija.Adresa.NaseljenoMjesto + ";" + voznja.Lokacija.Adresa.PozivniBroj + ";" + voznja.Automobil + ";" + voznja.Musterija + ";" + voznja.Odrediste.X + ";" + voznja.Odrediste.Y + ";" + voznja.Odrediste.Adresa.UlicaBroj + ";" + voznja.Odrediste.Adresa.NaseljenoMjesto + ";" + voznja.Odrediste.Adresa.PozivniBroj + ";" + voznja.Dispecer + ";" + voznja.Vozac + ";" + voznja.Iznos + ";" + voznja.Komentar.Opis + ";" + voznja.Komentar.DatumObjave + ";" + voznja.Komentar.KorisnickoIme + ";" + voznja.Komentar.IdVoznje + ";" + voznja.Komentar.OcenaVoznje + ";" + voznja.Status + "\n");
 
             if (!File.Exists(path))
                 File.WriteAllText(path, sb.ToString());

@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
                     StringBuilder sb = new StringBuilder();
                     sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + "\n");
                     string[] arrLine = File.ReadAllLines(path);
-                    arrLine[item.Id] = sb.ToString();
+                    arrLine[item.Id - 1] = sb.ToString();
                     File.WriteAllLines(path, arrLine);
                     File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
                     return true;

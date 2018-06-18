@@ -164,6 +164,7 @@
     <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\RegistracijaController.cs" />
     <Compile Include="Controllers\VozacController.cs" />
+    <Compile Include="Controllers\VoznjaController.cs" />
     <Compile Include="Controllers\WellcomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
