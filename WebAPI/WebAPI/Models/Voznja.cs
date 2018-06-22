@@ -11,13 +11,13 @@ namespace WebAPI.Models
     {
         public Voznja() { }
 
-        public Voznja(string IdVoznje, string DatumVreme, string X, string Y, string UlicaBroj, string NaseljenoMesto, string PozivniBroj, string TipAutomobila, string IdMusterije, string XOdrediste, string YOdrediste, string UlicaBrojOdrediste, string NaseljenoMestoOdrediste, string PozivniBrojOdrediste, string IdDispecera, string IdVozaca, string Iznos, string OpsiKomentara, string DatumKomentara, string KorisnickoImeOnogKoPraviKomentar, string Ocena, string StatusV)
+        public Voznja(string IdVoznje, string DatumVreme, string X, string Y, string UlicaBroj, string NaseljenoMesto, string PozivniBroj, string TipAutomobila, string IdMusterije, string XOdrediste, string YOdrediste, string UlicaBrojOdrediste, string NaseljenoMestoOdrediste, string PozivniBrojOdrediste, string IdDispecera, string IdVozaca, string Iznos, string OpisKomentara, string DatumKomentara, string KorisnickoImeOnogKoPraviKomentar, string Idvoznje, string Ocena, string StatusV)
         {
             this.IdVoznje = Int32.Parse(IdVoznje);
             this.VremePorudzbine = DateTime.Parse(DatumVreme);
             Lokacija = new Lokacija(X, Y, UlicaBroj, NaseljenoMesto, PozivniBroj);
 
-            if (TipAutomobila.Equals("PUTNICKI AUTOMOBIL"))
+            if (TipAutomobila.Equals("PUTNICKIAUTOMOBIL"))
             {
                 Automobil = Tip.PUTNICKIAUTOMOBIL;
             }
@@ -26,12 +26,12 @@ namespace WebAPI.Models
                 Automobil = Tip.KOMBIVOZILA;
             }
 
-            Musterija = Int32.Parse(IdMusterije);
+            Musterija = IdMusterije;
             Odrediste = new Lokacija(XOdrediste, YOdrediste, UlicaBrojOdrediste, NaseljenoMestoOdrediste, PozivniBrojOdrediste);
-            Dispecer = Int32.Parse(IdDispecera);
-            Vozac = Int32.Parse(IdVozaca);
+            Dispecer = IdDispecera;
+            Vozac = IdVozaca;
             this.Iznos = double.Parse(Iznos);
-            Komentar = new Komentar(OpsiKomentara, DatumKomentara, KorisnickoImeOnogKoPraviKomentar, IdVoznje, Ocena);
+            Komentar = new Komentar(OpisKomentara, DatumKomentara, KorisnickoImeOnogKoPraviKomentar, Idvoznje, Ocena);
             if (StatusV.Equals("KREIRANA_NA_CEKANJU"))
             {
                 this.Status = Status.KREIRANA_NA_CEKANJU;
@@ -60,19 +60,16 @@ namespace WebAPI.Models
             {
                 this.Status = Status.USPESNA;
             }
-            else if (StatusV.Equals("U_TOKU"))
-            {
-                this.Status = Status.U_TOKU;
-            }
+            
         }
         public int IdVoznje { get; set; }
         public DateTime VremePorudzbine { get; set; }
         public Lokacija Lokacija { get; set; }
         public Tip Automobil { get; set; }
-        public int Musterija { get; set; }
+        public string Musterija { get; set; }
         public Lokacija Odrediste { get; set; }
-        public int Dispecer { get; set; }
-        public int Vozac { get; set; }
+        public string Dispecer { get; set; }
+        public string Vozac { get; set; }
         public double Iznos { get; set; }
         public Komentar Komentar { get; set; }
         public Status Status { get; set; }

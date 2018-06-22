@@ -1,2 +1,5 @@
-1;17.6.2018. 22:57:39;23;23;23;23;23;KOMBIVOZILA;1;;;;;;0;0;0;Nije dobro proslo;19.6.2018. 01:03:33;eli;1;2;OTKAZANA
-2;17.6.2018. 23:11:16;1;1;1;1;1;KOMBIVOZILA;1;;;;;;0;0;0;fasd;19.6.2018. 01:05:11;eli;2;0;OTKAZANA
+1;22.6.2018. 04:24:14;kflsdjkl;dlksfjkl;ksdlfj;klkfsdld;lklkfgjklskdlfjlk;KOMBIVOZILA;eli;;;;;;;;0;;22.6.2018. 04:24:14;;1;0;KREIRANA_NA_CEKANJU
+2;22.6.2018. 04:24:14;fjkdhfk;dskjfh;djksfh;kjhdskjf;kjsdjk;PUTNICKIAUTOMOBIL;eli;;;;;;;;0;kjdshfkjh;22.6.2018. 04:29:35;eli;2;2;OTKAZANA
+3;22.6.2018. 04:48:21;fjad;dskjf;dsjkfh;sdjkfh;dsfh;PUTNICKIAUTOMOBIL;;;;;;;Maja;Bane;0;;22.6.2018. 04:48:21;;3;0;FORMIRANA
+4;22.6.2018. 04:48:33;jsdfkj;dklfj;dlksfj;lkjdsklfj;sdklfj;PUTNICKIAUTOMOBIL;;;;;;;Maja;Miki;0;;22.6.2018. 04:48:33;;4;0;FORMIRANA
+5;22.6.2018. 05:04:08;sadfasdf;asdfasfd;asdfasdf;sadfasfd;asdfasdf;KOMBIVOZILA;;;;;;;Maja;Svjetlan;0;;22.6.2018. 05:04:08;;5;0;FORMIRANA

@@ -15,7 +15,7 @@ namespace WebAPI.Models
             GodisteAutomobila = g;
             BrojRegistarskeOznake = b;
             BrojTaksiVozila = bt;
-            if(t.Equals("PUTNICKI AUTOMOBIL"))
+            if(t.Equals("PUTNICKIAUTOMOBIL"))
             {
                 this.Tip = Tip.PUTNICKIAUTOMOBIL;
             }

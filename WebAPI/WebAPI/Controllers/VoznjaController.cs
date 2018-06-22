@@ -13,13 +13,18 @@ namespace WebAPI.Controllers
 {
     public class VoznjaController : ApiController
     {
-        public bool Put([FromBody]Voznja voznja)
+        public List<Voznja> Get()
         {
             Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
+            return voznje.voznje;
+        }
+        [Route("api/Voznja/Put/{id:int}")]
+        public bool Put(int id,[FromBody]Voznja voznja) // izmena voznje iz Musterije
+        {
+            Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
             foreach (var item in voznje.voznje)
             {
-                if (voznja.Musterija == item.Musterija && item.Status == StatusVoznje.Status.KREIRANA_NA_CEKANJU)
+                if (item.IdVoznje == id)
                 {
                     item.Lokacija.X = voznja.Lokacija.X;
                     item.Lokacija.Y = voznja.Lokacija.Y;
@@ -27,52 +32,47 @@ namespace WebAPI.Controllers
                     item.Lokacija.Adresa.NaseljenoMjesto = voznja.Lokacija.Adresa.NaseljenoMjesto;
                     item.Lokacija.Adresa.PozivniBroj = voznja.Lokacija.Adresa.PozivniBroj;
                     item.Automobil = voznja.Automobil;
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(item.IdVoznje + ";" + item.VremePorudzbine + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil + ";" + item.Musterija + ";" + item.Odrediste.X + ";" + item.Odrediste.Y + ";" + item.Odrediste.Adresa.UlicaBroj + ";" + item.Odrediste.Adresa.NaseljenoMjesto + ";" + item.Odrediste.Adresa.PozivniBroj + ";" + item.Dispecer + ";" + item.Vozac + ";" + item.Iznos + ";" + item.Komentar.Opis + ";" + item.Komentar.DatumObjave + ";" + item.Komentar.KorisnickoIme + ";" + item.Komentar.IdVoznje + ";" + item.Komentar.OcenaVoznje + ";" + item.Status + "\n");
-                    string[] arrLine = File.ReadAllLines(path);
-                    arrLine[item.IdVoznje - 1] = sb.ToString();
-                    File.WriteAllLines(path, arrLine);
-                    File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+                    UpisUTxt(item);
                     return true;
                 }
             }
             return false;
         }
 
-        [Route("api/Voznja/PUT")]
-        public bool PUT([FromBody]Voznja voznja)
+        [Route("api/Voznja/PutOtkaz/{id:int}")]
+        public bool PutOtkaz(int id, [FromBody]Voznja voznja) // Kad se voznja otkazuje iz musterije
         {
             Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
-            Korisnici korisnici = (Korisnici)HttpContext.Current.Application["korisnici"];
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
-
-            foreach (var item in voznje.voznje)
+           
+            foreach (Voznja item in voznje.voznje)
             {
-                if(item.Status == StatusVoznje.Status.KREIRANA_NA_CEKANJU && voznja.Musterija == item.Musterija && item.Dispecer == 0)
+                if (item.IdVoznje == id)
                 {
                     item.Komentar.Opis = voznja.Komentar.Opis;
                     item.Komentar.DatumObjave = DateTime.Now;
-                    foreach (var korisnik in korisnici.korisnici)
-                    {
-                        if (item.Musterija == korisnik.Id)
-                        {
-                            item.Komentar.KorisnickoIme = korisnik.KorisnickoIme;
-                            break;
-                        }
-                    }
+                    item.Komentar.KorisnickoIme = voznja.Musterija;
                     item.Komentar.IdVoznje = item.IdVoznje;
                     item.Komentar.OcenaVoznje = voznja.Komentar.OcenaVoznje;
                     item.Status = StatusVoznje.Status.OTKAZANA;
-                    StringBuilder sb = new StringBuilder();
-                    sb.Append(item.IdVoznje + ";" + item.VremePorudzbine + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil + ";" + item.Musterija + ";" + item.Odrediste.X + ";" + item.Odrediste.Y + ";" + item.Odrediste.Adresa.UlicaBroj + ";" + item.Odrediste.Adresa.NaseljenoMjesto + ";" + item.Odrediste.Adresa.PozivniBroj + ";" + item.Dispecer + ";" + item.Vozac + ";" + item.Iznos + ";" + item.Komentar.Opis + ";" + item.Komentar.DatumObjave + ";" + item.Komentar.KorisnickoIme + ";" + item.Komentar.IdVoznje + ";" + item.Komentar.OcenaVoznje + ";" + item.Status + "\n");
-                    string[] arrLine = File.ReadAllLines(path);
-                    arrLine[item.IdVoznje - 1] = sb.ToString();
-                    File.WriteAllLines(path, arrLine);
-                    File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+                    UpisUTxt(item);
                     return true;
                 }
             }
             return false;
+        }
+
+        public void UpisUTxt(Voznja v)
+        {
+            Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
+            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
+            StringBuilder sb = new StringBuilder();
+            sb.Append(v.IdVoznje + ";" + v.VremePorudzbine + ";" + v.Lokacija.X + ";" + v.Lokacija.Y + ";" + v.Lokacija.Adresa.UlicaBroj + ";" + v.Lokacija.Adresa.NaseljenoMjesto + ";" + v.Lokacija.Adresa.PozivniBroj + ";" + v.Automobil + ";" + v.Musterija + ";" + v.Odrediste.X + ";" + v.Odrediste.Y + ";" + v.Odrediste.Adresa.UlicaBroj + ";" + v.Odrediste.Adresa.NaseljenoMjesto + ";" + v.Odrediste.Adresa.PozivniBroj + ";" + v.Dispecer + ";" + v.Vozac + ";" + v.Iznos + ";" + v.Komentar.Opis + ";" + v.Komentar.DatumObjave + ";" + v.Komentar.KorisnickoIme + ";" + v.Komentar.IdVoznje + ";" + v.Komentar.OcenaVoznje + ";" + v.Status + "\n");
+            string[] arrLine = File.ReadAllLines(path);
+            arrLine[v.IdVoznje - 1] = sb.ToString();
+            File.WriteAllLines(path, arrLine);
+            File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+            voznje = new Voznje("~/App_Data/Voznje.txt");
+            HttpContext.Current.Application["voznje"] = voznje;
         }
     }
 }

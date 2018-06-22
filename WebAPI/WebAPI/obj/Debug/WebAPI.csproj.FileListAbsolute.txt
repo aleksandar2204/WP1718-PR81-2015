@@ -1,4 +1,3 @@
-C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\obj\Debug\WebAPI.csproj.CoreCompileInputs.cache
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\roslyn\csc.exe
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
@@ -42,6 +41,7 @@ C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\Syst
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\System.Web.WebPages.Deployment.xml
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\System.Web.WebPages.Razor.xml
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\bin\Antlr3.Runtime.pdb
+C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\obj\Debug\WebAPI.csproj.CoreCompileInputs.cache
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\obj\Debug\WebAPI.csproj.CopyComplete
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\obj\Debug\WebAPI.dll
 C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\obj\Debug\WebAPI.pdb

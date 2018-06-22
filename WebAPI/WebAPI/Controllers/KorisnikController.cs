@@ -37,10 +37,11 @@ namespace WebAPI.Controllers
                     arrLine[item.Id - 1] = sb.ToString();
                     File.WriteAllLines(path, arrLine);
                     File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+                    k = new Korisnici("~/App_Data/Korisnici.txt");
+                    HttpContext.Current.Application["korisnici"] = k;
                     return true;
                 }
             }
-
             return false;
         }
     }

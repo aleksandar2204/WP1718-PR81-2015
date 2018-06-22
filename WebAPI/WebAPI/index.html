@@ -150,8 +150,9 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data) {
-                            $(location).attr('href', 'wellcome.html');
                             localStorage.setItem("Ulogovan", korisnik.KorisnickoIme);
+                            $(location).attr('href', 'wellcome.html');
+                            //$.get
                         }
                         else {
                             alert('Error');
