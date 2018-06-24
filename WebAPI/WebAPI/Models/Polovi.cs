@@ -7,6 +7,6 @@ namespace WebAPI.Models
 {
     public class Polovi 
     {
-        public enum Pol { MUSKO, ZENSKO }
+        public enum Pol { MUSKI, ZENSKI }
     }
 }

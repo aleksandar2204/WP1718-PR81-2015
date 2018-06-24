@@ -28,13 +28,13 @@ namespace WebAPI.Models
             this.Lozinka = Lozinka;
             this.Ime = Ime;
             this.Prezime = Prezime;
-            if(Pol.Equals("MUSKI"))
+            if(pol.Equals("MUSKI"))
             {
-                this.Pol = Pol.MUSKO;
+                this.Pol = Pol.MUSKI;
             }
             else
             {
-                this.Pol = Pol.ZENSKO;
+                this.Pol = Pol.ZENSKI;
             }
             this.JMBG = Jmbg;
             this.Telefon = Telefon;
