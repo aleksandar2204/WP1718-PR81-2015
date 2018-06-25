@@ -83,6 +83,34 @@ namespace WebAPI.Controllers
                 }
             }
 
+            string[] dijelovi = voznja.Lokacija.Adresa.NaseljenoMjesto.Split(' ');
+            voznja.Lokacija.Adresa.NaseljenoMjesto = null;
+            dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+            int br = 0;
+            for (int i = 0; i < dijelovi.Length; i++)
+            {
+                int n;
+                bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                if (isNumeric)
+                {
+                    voznja.Lokacija.Adresa.PozivniBroj = dijelovi[i];
+                    break;
+                }
+                else
+                {
+                    if (br > 0)
+                    {
+                        voznja.Lokacija.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                    }
+                    else
+                    {
+                        voznja.Lokacija.Adresa.NaseljenoMjesto += dijelovi[i];
+                        br++;
+                    }
+                }
+            }
+
             sb.Append(voznja.IdVoznje + ";" + voznja.VremePorudzbine + ";" + voznja.Lokacija.X + ";" + voznja.Lokacija.Y + ";" + voznja.Lokacija.Adresa.UlicaBroj + ";" + voznja.Lokacija.Adresa.NaseljenoMjesto + ";" + voznja.Lokacija.Adresa.PozivniBroj + ";" + voznja.Automobil + ";" + voznja.Musterija + ";" + voznja.Odrediste.X + ";" + voznja.Odrediste.Y + ";" + voznja.Odrediste.Adresa.UlicaBroj + ";" + voznja.Odrediste.Adresa.NaseljenoMjesto + ";" + voznja.Odrediste.Adresa.PozivniBroj + ";" + voznja.Dispecer + ";" + voznja.Vozac + ";" + voznja.Iznos + ";" + voznja.Komentar.Opis + ";" + voznja.Komentar.DatumObjave + ";" + voznja.Komentar.KorisnickoIme + ";" + voznja.Komentar.IdVoznje + ";" + voznja.Komentar.OcenaVoznje + ";" + voznja.Status + "\n");
 
             voznje.voznje.Add(voznja);

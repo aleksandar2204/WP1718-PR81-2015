@@ -29,6 +29,35 @@ namespace WebAPI.Controllers
                     item.Lokacija.X = voznja.Lokacija.X;
                     item.Lokacija.Y = voznja.Lokacija.Y;
                     item.Lokacija.Adresa.UlicaBroj = voznja.Lokacija.Adresa.UlicaBroj;
+
+                    string[] dijelovi = voznja.Lokacija.Adresa.NaseljenoMjesto.Split(' ');
+                    voznja.Lokacija.Adresa.NaseljenoMjesto = null;
+                    dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                    int br = 0;
+                    for (int i = 0; i < dijelovi.Length; i++)
+                    {
+                        int n;
+                        bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                        if (isNumeric)
+                        {
+                            voznja.Lokacija.Adresa.PozivniBroj = dijelovi[i];
+                            break;
+                        }
+                        else
+                        {
+                            if (br > 0)
+                            {
+                                voznja.Lokacija.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                            }
+                            else
+                            {
+                                voznja.Lokacija.Adresa.NaseljenoMjesto += dijelovi[i];
+                                br++;
+                            }
+                        }
+                    }
+
                     item.Lokacija.Adresa.NaseljenoMjesto = voznja.Lokacija.Adresa.NaseljenoMjesto;
                     item.Lokacija.Adresa.PozivniBroj = voznja.Lokacija.Adresa.PozivniBroj;
                     item.Automobil = voznja.Automobil;
@@ -104,6 +133,35 @@ namespace WebAPI.Controllers
                     item.Odrediste.X = voznja.Odrediste.X;
                     item.Odrediste.Y = voznja.Odrediste.Y;
                     item.Odrediste.Adresa.UlicaBroj = voznja.Odrediste.Adresa.UlicaBroj;
+
+                    string[] dijelovi = voznja.Odrediste.Adresa.NaseljenoMjesto.Split(' ');
+                    voznja.Odrediste.Adresa.NaseljenoMjesto = null;
+                    dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                    int br = 0;
+                    for (int i = 0; i < dijelovi.Length; i++)
+                    {
+                        int n;
+                        bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                        if (isNumeric)
+                        {
+                            voznja.Odrediste.Adresa.PozivniBroj = dijelovi[i];
+                            break;
+                        }
+                        else
+                        {
+                            if (br > 0)
+                            {
+                                voznja.Odrediste.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                            }
+                            else
+                            {
+                                voznja.Odrediste.Adresa.NaseljenoMjesto += dijelovi[i];
+                                br++;
+                            }
+                        }
+                    }
+
                     item.Odrediste.Adresa.NaseljenoMjesto = voznja.Odrediste.Adresa.NaseljenoMjesto;
                     item.Odrediste.Adresa.PozivniBroj = voznja.Odrediste.Adresa.PozivniBroj;
                     item.Status = voznja.Status;

@@ -34,6 +34,42 @@ namespace WebAPI.Controllers
 
             vozac.Id = v.vozaci.Count + 1;
 
+            if(vozac.Automobil.Tip.Equals("PUTNICKI AUTOMOBIL"))
+            {
+                vozac.Automobil.Tip = TipAutomobila.Tip.PUTNICKIAUTOMOBIL;
+            }
+            else
+            {
+                vozac.Automobil.Tip = TipAutomobila.Tip.KOMBIVOZILA;
+            }
+
+            string[] dijelovi = vozac.Lokacija.Adresa.NaseljenoMjesto.Split(' ');
+            vozac.Lokacija.Adresa.NaseljenoMjesto = null;
+            dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+            int br = 0;
+            for (int i = 0; i < dijelovi.Length; i++)
+            {
+                int n;
+                bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                if (isNumeric)
+                {
+                    vozac.Lokacija.Adresa.PozivniBroj = dijelovi[i];
+                    break;
+                }
+                else
+                {
+                    if (br > 0)
+                    {
+                        vozac.Lokacija.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                    }
+                    else
+                    {
+                        vozac.Lokacija.Adresa.NaseljenoMjesto += dijelovi[i];
+                        br++;
+                    }
+                }
+            }
+
             v.vozaci.Add(vozac);
             StringBuilder sb = new StringBuilder();
             
@@ -73,12 +109,44 @@ namespace WebAPI.Controllers
                     item.Lokacija.X = korisnik.Lokacija.X;
                     item.Lokacija.Y = korisnik.Lokacija.Y;
                     item.Lokacija.Adresa.UlicaBroj = korisnik.Lokacija.Adresa.UlicaBroj;
+
+                    string[] dijelovi = korisnik.Lokacija.Adresa.NaseljenoMjesto.Split(' ');
+                    korisnik.Lokacija.Adresa.NaseljenoMjesto = null;
+                    dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                    int br = 0;
+                    for (int i = 0; i < dijelovi.Length; i++)
+                    {
+                        int n;
+                        bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                        if (isNumeric)
+                        {
+                            korisnik.Lokacija.Adresa.PozivniBroj = dijelovi[i];
+                            break;
+                        }
+                        else
+                        {
+                            if (br > 0)
+                            {
+                                korisnik.Lokacija.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                            }
+                            else
+                            {
+                                korisnik.Lokacija.Adresa.NaseljenoMjesto += dijelovi[i];
+                                br++;
+                            }
+                        }
+                    }
+
                     item.Lokacija.Adresa.NaseljenoMjesto = korisnik.Lokacija.Adresa.NaseljenoMjesto;
                     item.Lokacija.Adresa.PozivniBroj = korisnik.Lokacija.Adresa.PozivniBroj;
                     item.Automobil.BrojRegistarskeOznake = korisnik.Automobil.BrojRegistarskeOznake;
                     item.Automobil.BrojTaksiVozila = korisnik.Automobil.BrojTaksiVozila;
                     item.Automobil.GodisteAutomobila = korisnik.Automobil.GodisteAutomobila;
-                    item.Automobil.Tip = korisnik.Automobil.Tip;
+                    if (korisnik.Automobil.Tip.Equals("PUTNICKI AUTOMOBIL"))
+                        item.Automobil.Tip = TipAutomobila.Tip.PUTNICKIAUTOMOBIL;
+                    else
+                        item.Automobil.Tip = TipAutomobila.Tip.KOMBIVOZILA;
                     item.Automobil.Vozac = korisnik.Automobil.Vozac;
                     StringBuilder sb = new StringBuilder();
                     sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Lokacija.X + ";" + item.Lokacija.Y + ";" + item.Lokacija.Adresa.UlicaBroj + ";" + item.Lokacija.Adresa.NaseljenoMjesto + ";" + item.Lokacija.Adresa.PozivniBroj + ";" + item.Automobil.Vozac + ";" + item.Automobil.GodisteAutomobila + ";" + item.Automobil.BrojRegistarskeOznake + ";" + item.Automobil.BrojTaksiVozila + ";" + item.Automobil.Tip + ";" + item.Zauzet + "\n");
@@ -106,6 +174,35 @@ namespace WebAPI.Controllers
                     item.Lokacija.X = vozac.Lokacija.X;
                     item.Lokacija.Y = vozac.Lokacija.Y;
                     item.Lokacija.Adresa.UlicaBroj = vozac.Lokacija.Adresa.UlicaBroj;
+
+                    string[] dijelovi = vozac.Lokacija.Adresa.NaseljenoMjesto.Split(' ');
+                    vozac.Lokacija.Adresa.NaseljenoMjesto = null;
+                    dijelovi = dijelovi.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                    int br = 0;
+                    for (int i = 0; i < dijelovi.Length; i++)
+                    {
+                        int n;
+                        bool isNumeric = Int32.TryParse(dijelovi[i], out n);
+                        if (isNumeric)
+                        {
+                            vozac.Lokacija.Adresa.PozivniBroj = dijelovi[i];
+                            break;
+                        }
+                        else
+                        {
+                            if (br > 0)
+                            {
+                                vozac.Lokacija.Adresa.NaseljenoMjesto += " " + dijelovi[i];
+                            }
+                            else
+                            {
+                                vozac.Lokacija.Adresa.NaseljenoMjesto += dijelovi[i];
+                                br++;
+                            }
+                        }
+                    }
+
                     item.Lokacija.Adresa.NaseljenoMjesto = vozac.Lokacija.Adresa.NaseljenoMjesto;
                     item.Lokacija.Adresa.PozivniBroj = vozac.Lokacija.Adresa.PozivniBroj;
                     StringBuilder sb = new StringBuilder();
