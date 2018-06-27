@@ -1,5 +1,5 @@
 1;Svjetlan;svjetlan;Svjetlan;Dondur;MUSKI;2305972000000;065639103;svjetlan@gmail.com;VOZAC;nema voznje;45;45;Cara Lazara 23;Banja Luka;78000;Svjetlan;1997;45;45;KOMBIVOZILA;False
 2;Tanja;tanja;Tanja;Radojcic;ZENSKI;65432123;5646405;tanja@gmail.com;VOZAC;nema voznje;45;54;Stavana Bulajica 45;Novi Sad;21000;Tanja;2015;45;45;PUTNICKIAUTOMOBIL;False
 3;Bane;bane;Branislav;Papulanovic;ZENSKI;1844056;5646505561;bane@gmail.com;VOZAC;nema voznje;45;45;Cara Lazara 45;Banja Luka;78000;Bane;1996;45;45;PUTNICKIAUTOMOBIL;True
-4;Miki;miki;Milivoj;Milosavljevic;MUSKI;14564654;46541560;miki@gmail.com;VOZAC;nema voznje;454;54;Cara Dusana 5;Novi Sad;21000;Miki;2005;45;54;PUTNICKIAUTOMOBIL;False
-5;Milan;milan;Milance;Masnikosa;MUSKI;654165;4564156;milance@gmail.com;VOZAC;nema voznje;45.24272907827016;19.842190238621924;Bulevar oslobođenja 131;Novi Sad;21000;Milan;2011;254;12;PUTNICKIAUTOMOBIL;False
+4;Miki;miki;Milivoj;Milosavljevic;MUSKI;14564654;46541560;miki@gmail.com;VOZAC;nema voznje;454;54;Cara Dusana 5;Novi Sad;21000;Miki;2005;45;54;PUTNICKIAUTOMOBIL;True
+5;Milan;milan;Milance;Masnikosa;MUSKI;654165;4564156;milance@gmail.com;VOZAC;nema voznje;45.24272907827016;19.842190238621924;Bulevar oslobođenja 131;Novi Sad;21000;Milan;2011;254;12;PUTNICKIAUTOMOBIL;True

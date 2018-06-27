@@ -13,6 +13,11 @@ namespace WebAPI.Controllers
 {
     public class KorisnikController : ApiController
     {
+        public List<Korisnik> Get()
+        {
+            Korisnici korisnici = (Korisnici)HttpContext.Current.Application["korisnici"];
+            return korisnici.korisnici;
+        }
         public bool Put(int id, [FromBody]Korisnik korisnik)
         {
             Korisnici k = (Korisnici)HttpContext.Current.Application["korisnici"];
