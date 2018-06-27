@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Models\Adresa.cs" />
     <Compile Include="Models\Automobil.cs" />
+    <Compile Include="Models\Banovanje.cs" />
     <Compile Include="Models\Dispecer.cs" />
     <Compile Include="Models\Dispeceri.cs" />
     <Compile Include="Models\Komentar.cs" />

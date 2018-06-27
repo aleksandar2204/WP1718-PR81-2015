@@ -1,1 +1,2 @@
-1;eli;eli;Elena;Kevac;ZENSKO;54060601;61464651;elena@gmail.com;MUSTERIJA;nema
+1;eli;eli;Elena;Kevac;ZENSKI;654650616;654601;eli@gmail.com;MUSTERIJA;Nema;NIJEBANOVAN
+2;acka;acka;Aleksandra;Dondur;ZENSKI;120600165456;065300615;acka@gmail.com;MUSTERIJA;nema voznje;NIJEBANOVAN

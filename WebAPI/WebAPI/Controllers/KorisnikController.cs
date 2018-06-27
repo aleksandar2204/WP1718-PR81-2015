@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -21,7 +22,8 @@ namespace WebAPI.Controllers
         public bool Put(int id, [FromBody]Korisnik korisnik)
         {
             Korisnici k = (Korisnici)HttpContext.Current.Application["korisnici"];
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Korisnici.txt";
+            string path = "~/App_Data/Korisnici.txt";
+            path = HostingEnvironment.MapPath(path);
             foreach (var item in k.korisnici)
             {
                 if (item.Id == id)
@@ -37,7 +39,7 @@ namespace WebAPI.Controllers
                     item.Email = korisnik.Email;
                     item.Voznja = korisnik.Voznja;
                     StringBuilder sb = new StringBuilder();
-                    sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + "\n");
+                    sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Banovan + "\n");
                     string[] arrLine = File.ReadAllLines(path);
                     arrLine[item.Id - 1] = sb.ToString();
                     File.WriteAllLines(path, arrLine);
@@ -48,6 +50,41 @@ namespace WebAPI.Controllers
                 }
             }
             return false;
+        }
+        [Route("api/Korisnik/PutBanovanje/{id:int}")]
+        public bool PutBanovanje(int id, [FromBody]Korisnik value)
+        {
+            Korisnici korisnici = (Korisnici)HttpContext.Current.Application["korisnici"];
+
+            //Validacija
+            if (korisnici.korisnici == null)
+                korisnici.korisnici = new List<Korisnik>();
+
+
+            foreach (var item in korisnici.korisnici)
+            {
+                if(item.Id == id)
+                {
+                    if(item.Banovan != value.Banovan)
+                    {
+                        item.Banovan = value.Banovan;
+                        string path = "~/App_Data/Korisnici.txt";
+                        path = HostingEnvironment.MapPath(path);
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append(item.Id + ";" + item.KorisnickoIme + ";" + item.Lozinka + ";" + item.Ime + ";" + item.Prezime + ";" + item.Pol + ";" + item.JMBG + ";" + item.Telefon + ";" + item.Email + ";" + item.Uloga + ";" + item.Voznja + ";" + item.Banovan + "\n");
+                        string[] arrLine = File.ReadAllLines(path);
+                        arrLine[item.Id - 1] = sb.ToString();
+                        File.WriteAllLines(path, arrLine);
+                        File.WriteAllLines(path, File.ReadAllLines(path).Where(l => !string.IsNullOrWhiteSpace(l)));
+
+                        korisnici = new Korisnici("~/App_Data/Korisnici.txt");
+                        HttpContext.Current.Application["korisnici"] = korisnici;
+                        return true;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }

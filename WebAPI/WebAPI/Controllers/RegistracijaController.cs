@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -16,6 +17,21 @@ namespace WebAPI.Controllers
         public bool Post([FromBody]Korisnik korisnik)
         {
             Korisnici users = (Korisnici)HttpContext.Current.Application["korisnici"];
+
+            if(korisnik == null || users.korisnici == null)
+            {
+                return false;
+            }
+
+            if(korisnik.Uloga == Uloga.Uloge.DISPECER)
+            {
+                return false;
+            }
+            else if(korisnik.Uloga == Uloga.Uloge.VOZAC)
+            {
+                return false;
+            }
+
             foreach (var item in users.korisnici)
             {
                 if(item.KorisnickoIme == korisnik.KorisnickoIme)
@@ -24,13 +40,16 @@ namespace WebAPI.Controllers
                 }
             }
 
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Korisnici.txt";
+            string path = "~/App_Data/Korisnici.txt";
+            path = HostingEnvironment.MapPath(path);
             
             korisnik.Id = users.korisnici.Count + 1;
 
+            korisnik.Banovan = Banovanje.Ban.NIJEBANOVAN;
+
             users.korisnici.Add(korisnik);
             StringBuilder sb = new StringBuilder();
-            sb.Append(korisnik.Id + ";" + korisnik.KorisnickoIme + ";" + korisnik.Lozinka + ";" + korisnik.Ime + ";" + korisnik.Prezime + ";" + korisnik.Pol + ";" + korisnik.JMBG + ";" + korisnik.Telefon + ";" + korisnik.Email + ";" + korisnik.Uloga + ";" + korisnik.Voznja + "\n");
+            sb.Append(korisnik.Id + ";" + korisnik.KorisnickoIme + ";" + korisnik.Lozinka + ";" + korisnik.Ime + ";" + korisnik.Prezime + ";" + korisnik.Pol + ";" + korisnik.JMBG + ";" + korisnik.Telefon + ";" + korisnik.Email + ";" + korisnik.Uloga + ";" + korisnik.Voznja + ";" + korisnik.Banovan + "\n");
             if(!File.Exists(path))
             {
                 File.WriteAllText(path, sb.ToString());
@@ -51,6 +70,9 @@ namespace WebAPI.Controllers
         {
             Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
 
+            if (voznje.voznje == null || voznja == null)
+                return false;
+
             /*foreach (var item in voznje.voznje) // Nece se dodati za istu Musteriju voznja koja je kreirana i na cekanju
             {                                   // jer klijent moze imati samo jednu voznju koja je na cekanju
                 if(item.Status == StatusVoznje.Status.KREIRANA_NA_CEKANJU && item.Musterija == voznja.Musterija)
@@ -66,10 +88,11 @@ namespace WebAPI.Controllers
             voznja.Status = StatusVoznje.Status.KREIRANA_NA_CEKANJU;
 
             voznja.Odrediste = new Lokacija("", "", "", "", "");
-            voznja.Komentar = new Komentar("", DateTime.Now.ToString(), "", voznja.IdVoznje.ToString(), "0");
+            voznja.Komentar = new Komentar("", "", "", "", "0");
 
             voznje.voznje.Add(voznja);
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
+            string path = "~/App_Data/Voznje.txt";
+            path = HostingEnvironment.MapPath(path);
             StringBuilder sb = new StringBuilder();
 
             string[] dijelovi = voznja.Lokacija.Adresa.NaseljenoMjesto.Split(' ');

@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Http;
 using WebAPI.Models;
 
@@ -105,7 +106,7 @@ namespace WebAPI.Controllers
                         if(vozac.KorisnickoIme == voznja.Vozac)
                         {
                             vozac.Zauzet = true;
-                            IzmeniVozaca(vozac);
+                            IzmeniVozaca(vozac, vozac.Lokacija);
                             break;
                         }
                     }
@@ -172,7 +173,7 @@ namespace WebAPI.Controllers
                         if (vozac.KorisnickoIme == voznja.Vozac)
                         {
                             vozac.Zauzet = false;
-                            IzmeniVozaca(vozac);
+                            IzmeniVozaca(vozac, voznja.Odrediste);
                             break;
                         }
                     }
@@ -200,7 +201,7 @@ namespace WebAPI.Controllers
                         if (vozac.KorisnickoIme == voznja.Vozac)
                         {
                             vozac.Zauzet = true;
-                            IzmeniVozaca(vozac);
+                            IzmeniVozaca(vozac, vozac.Lokacija);
                             break;
                         }
                     }
@@ -234,7 +235,7 @@ namespace WebAPI.Controllers
                         if (vozac.KorisnickoIme == voznja.Vozac)
                         {
                             vozac.Zauzet = false;
-                            IzmeniVozaca(vozac);
+                            IzmeniVozaca(vozac, vozac.Lokacija);
                             break;
                         }
                     }
@@ -264,13 +265,16 @@ namespace WebAPI.Controllers
             }
             return false;
         }
-        public void IzmeniVozaca(Vozac vozac)
+        public void IzmeniVozaca(Vozac vozac, Lokacija odrediste)
         {     
             Vozaci vozaci = (Vozaci)HttpContext.Current.Application["vozaci"];
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Vozaci.txt";
+            string path = "~/App_Data/Vozaci.txt";
+            path = HostingEnvironment.MapPath(path);
+
+            vozac.Lokacija = odrediste;
 
             StringBuilder sb = new StringBuilder();
-            sb.Append(vozac.Id + ";" + vozac.KorisnickoIme + ";" + vozac.Lozinka + ";" + vozac.Ime + ";" + vozac.Prezime + ";" + vozac.Pol + ";" + vozac.JMBG + ";" + vozac.Telefon + ";" + vozac.Email + ";" + vozac.Uloga + ";" + vozac.Voznja + ";" + vozac.Lokacija.X + ";" + vozac.Lokacija.Y + ";" + vozac.Lokacija.Adresa.UlicaBroj + ";" + vozac.Lokacija.Adresa.NaseljenoMjesto + ";" + vozac.Lokacija.Adresa.PozivniBroj + ";" + vozac.Automobil.Vozac + ";" + vozac.Automobil.GodisteAutomobila + ";" + vozac.Automobil.BrojRegistarskeOznake + ";" + vozac.Automobil.BrojTaksiVozila + ";" + vozac.Automobil.Tip + ";" + vozac.Zauzet + "\n");
+            sb.Append(vozac.Id + ";" + vozac.KorisnickoIme + ";" + vozac.Lozinka + ";" + vozac.Ime + ";" + vozac.Prezime + ";" + vozac.Pol + ";" + vozac.JMBG + ";" + vozac.Telefon + ";" + vozac.Email + ";" + vozac.Uloga + ";" + vozac.Voznja + ";" + vozac.Banovan + ";" + vozac.Lokacija.X + ";" + vozac.Lokacija.Y + ";" + vozac.Lokacija.Adresa.UlicaBroj + ";" + vozac.Lokacija.Adresa.NaseljenoMjesto + ";" + vozac.Lokacija.Adresa.PozivniBroj + ";" + vozac.Automobil.Vozac + ";" + vozac.Automobil.GodisteAutomobila + ";" + vozac.Automobil.BrojRegistarskeOznake + ";" + vozac.Automobil.BrojTaksiVozila + ";" + vozac.Automobil.Tip + ";" + vozac.Zauzet + "\n");
             string[] arrLine = File.ReadAllLines(path);
             arrLine[vozac.Id - 1] = sb.ToString();
             File.WriteAllLines(path, arrLine);
@@ -284,7 +288,8 @@ namespace WebAPI.Controllers
         public void UpisUTxt(Voznja v)
         {
             Voznje voznje = (Voznje)HttpContext.Current.Application["voznje"];
-            string path = @"C:\Users\Aleksandar\Desktop\WEB_projekat\WP1718-PR81-2015\WebAPI\WebAPI\App_Data\Voznje.txt";
+            string path = "~/App_Data/Voznje.txt";
+            path = HostingEnvironment.MapPath(path);
             StringBuilder sb = new StringBuilder();
             sb.Append(v.IdVoznje + ";" + v.VremePorudzbine + ";" + v.Lokacija.X + ";" + v.Lokacija.Y + ";" + v.Lokacija.Adresa.UlicaBroj + ";" + v.Lokacija.Adresa.NaseljenoMjesto + ";" + v.Lokacija.Adresa.PozivniBroj + ";" + v.Automobil + ";" + v.Musterija + ";" + v.Odrediste.X + ";" + v.Odrediste.Y + ";" + v.Odrediste.Adresa.UlicaBroj + ";" + v.Odrediste.Adresa.NaseljenoMjesto + ";" + v.Odrediste.Adresa.PozivniBroj + ";" + v.Dispecer + ";" + v.Vozac + ";" + v.Iznos + ";" + v.Komentar.Opis + ";" + v.Komentar.DatumObjave + ";" + v.Komentar.KorisnickoIme + ";" + v.Komentar.IdVoznje + ";" + v.Komentar.OcenaVoznje + ";" + v.Status + "\n");
             string[] arrLine = File.ReadAllLines(path);

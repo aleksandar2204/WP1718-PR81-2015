@@ -149,50 +149,69 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     success: function (data) {
-                        if (data) {
+                        if (data == "Uspesno") {
                             localStorage.setItem("Ulogovan", korisnik.KorisnickoIme);
                             $(location).attr('href', 'wellcome.html');
                             //$.get
                         }
+                        else if (data == "Banovan") {
+                            alert('Banovani ste!');
+                            $(location).attr('href', 'index.html');
+                        }
                         else {
-                            alert('Error');
+                            alert('Greska');
+                            $(location).attr('href', 'index.html');
                         }
                     }
                 })
             });
 
             $("#registracija").click(function () {
-                let korisnik = {
-                    KorisnickoIme: `${$('#korImeReg').val()}`,
-                    Lozinka: `${$('#korPassReg').val()}`,
-                    Ime: `${$('#ime').val()}`,
-                    Prezime: `${$('#prezime').val()}`,
-                    Pol: `${$('#pol').val()}`,
-                    JMBG: `${$('#jmbg').val()}`,
-                    Telefon: `${$('#brTelefona').val()}`,
-                    Email: `${$('#emailAdr').val()}`,
-                    Uloga: 'MUSTERIJA',
-                    Voznja: `${$('#voznja').val()}`,
-                };
+                let x = `${$('#korImeReg').val()}`;
+                let y = `${$('#korPassReg').val()}`;
+                let q = `${$('#ime').val()}`;
+                let w = `${$('#prezime').val()}`;
+                let e = `${$('#jmbg').val()}`;
+                let r = `${$('#brTelefona').val()}`;
+                let t = `${$('#emailAdr').val()}`;
+                let u = `${$('#voznja').val()}`;
 
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/Registracija',
-                    data: JSON.stringify(korisnik),
-                    contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
-                    success: function (data) {
-                        if (data) {
-                            alert('Data was succesfully captured');
-                            $(location).attr('href', 'index.html');
+                if (x == "" || y == "" || q == "" || w == "" || e == "" || r == "" || t == "" || u == "") {
+                    alert("Morate ispreno popuniti sva polja!");
+                }
+                else {
+                    let korisnik = {
+                        KorisnickoIme: `${$('#korImeReg').val()}`,
+                        Lozinka: `${$('#korPassReg').val()}`,
+                        Ime: `${$('#ime').val()}`,
+                        Prezime: `${$('#prezime').val()}`,
+                        Pol: `${$('#pol').val()}`,
+                        JMBG: `${$('#jmbg').val()}`,
+                        Telefon: `${$('#brTelefona').val()}`,
+                        Email: `${$('#emailAdr').val()}`,
+                        Uloga: 'MUSTERIJA',
+                        Voznja: `${$('#voznja').val()}`,
+                    };
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/Registracija',
+                        data: JSON.stringify(korisnik),
+                        contentType: 'application/json; charset=utf-8',
+                        dataType: 'json',
+                        success: function (data) {
+                            if (data) {
+                                alert('Uspešno ste registrovani');
+                                $(location).attr('href', 'index.html');
+                            }
+                            else {
+                                alert('Korisnicko ime je zauzeto');
+                                $(location).attr('href', 'index.html');
+                            }
                         }
-                        else {
-                            alert('Error');
-                        }
-                    }
-                })
+                    })
+                }
             });
-
         });
 
     </script>

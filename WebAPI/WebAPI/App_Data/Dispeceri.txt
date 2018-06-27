@@ -1,1 +1,1 @@
-1;Maja;maja;Maja;Djordjevic;ZENSKO;64164165;561464;maja@gmail.com;DISPECER;nema voznje
+1;Maja;maja;Maja;Djordjevic;ZENSKO;64164165;561464;maja@gmail.com;DISPECER;nema voznje;DISPECER

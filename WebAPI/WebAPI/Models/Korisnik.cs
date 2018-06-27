@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using static WebAPI.Models.Polovi;
 using static WebAPI.Models.Uloga;
+using static WebAPI.Models.Banovanje;
 
 namespace WebAPI.Models
 {
@@ -20,8 +21,9 @@ namespace WebAPI.Models
         public string Email { get; set; }
         public Uloge Uloga { get; set; }
         public string Voznja { get; set; }
+        public Ban Banovan { get; set; }
 
-        public Korisnik(int Id, string KorisnickoIme, string Lozinka, string Ime, string Prezime, string pol, string Jmbg, string Telefon, string email, string uloga, string voznja)
+        public Korisnik(int Id, string KorisnickoIme, string Lozinka, string Ime, string Prezime, string pol, string Jmbg, string Telefon, string email, string uloga, string voznja, string ban)
         {
             this.Id = Id;
             this.KorisnickoIme = KorisnickoIme;
@@ -54,6 +56,19 @@ namespace WebAPI.Models
             }
 
             this.Voznja = voznja;
+
+            if (ban.Equals("BANOVAN"))
+            {
+                this.Banovan = Ban.BANOVAN;
+            }
+            else if(ban.Equals("NIJEBANOVAN"))
+            {
+                this.Banovan = Ban.NIJEBANOVAN;
+            }
+            else
+            {
+                this.Banovan = Ban.DISPECER;
+            }
         }
         // Dodaj Voznje
 
